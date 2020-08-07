@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AppHome from './../views/Home'
+import AppDashboard from './../views/Dashboard'
 // import store from '../store'
 
 Vue.use(VueRouter)
@@ -8,8 +8,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: AppHome
+    name: 'dashboard',
+    component: AppDashboard
     // meta: { requiresAuth: true }
   }
 ]
