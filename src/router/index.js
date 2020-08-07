@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AppLogin from './../views/Login'
-import AppOverview from './../views/Overview'
-import AppArticles from './../views/Articles'
-import AppManufacturers from './../views/Manufacturers'
-import AppMedia from './../views/Media'
+import AppHome from './../views/Home'
 // import store from '../store'
 
 Vue.use(VueRouter)
@@ -12,36 +8,9 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'login',
-    component: AppLogin
-  },
-  {
-    path: '/overview',
-    name: 'overview',
-    component: AppOverview
+    name: 'home',
+    component: AppHome
     // meta: { requiresAuth: true }
-  },
-  {
-    path: '/articles',
-    name: 'articles',
-    component: AppArticles
-    // meta: { requiresAuth: true }
-  },
-  {
-    path: '/manufacturers',
-    name: 'manufacturers',
-    component: AppManufacturers
-    // meta: { requiresAuth: true }
-  },
-  {
-    path: '/media',
-    name: 'media',
-    component: AppMedia
-    // meta: { requiresAuth: true }
-  },
-  {
-    path: '*',
-    redirect: 'login'
   }
 ]
 
