@@ -23,6 +23,11 @@ export default {
 </script>
 
 <style scoped>
+  @media screen AND (min-width: 991px) {
+    #mainNavigation {
+      min-height: 100vh;
+    }
+  }
   .list-group-item {
     border-color: transparent;
     border-width: 3px;

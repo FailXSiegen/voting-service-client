@@ -1,13 +1,11 @@
 <template>
-  <div class="profile-container">
+  <div class="polls-container">
     <div class="row">
       <div class="col-12 col-md-3 bg-dark text-white py-3">
         <app-navigation />
       </div>
-      <div class="col-12 col-md-5 py-3">
+      <div class="col-12 col-md-9 py-3">
         <h1>{{ headline }}</h1>
-        <p>{{ username }}</p>
-        <app-form />
       </div>
     </div>
   </div>
@@ -15,17 +13,13 @@
 
 <script>
 import AppNavigation from './../components/Navigation'
-import AppForm from './../components/profile/Form'
-
 export default {
   components: {
-    AppNavigation,
-    AppForm
+    AppNavigation
   },
   data () {
     return {
-      headline: 'My Profil',
-      username: 'Testuser1337'
+      headline: 'Polls'
     }
   }
 }

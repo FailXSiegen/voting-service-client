@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AppDashboard from './../views/Dashboard'
 import AppEvents from './../views/Events'
+import AppPolls from './../views/Polls'
 import AppProfile from './../views/Profile'
 // import store from '../store'
 
@@ -18,6 +19,12 @@ const routes = [
     path: '/events',
     name: 'Events',
     component: AppEvents
+    // meta: { requiresAuth: true }
+  },
+  {
+    path: '/polls',
+    name: 'Polls',
+    component: AppPolls
     // meta: { requiresAuth: true }
   },
   {
