@@ -9,11 +9,13 @@
         <app-event-listing
           :headline="'Upcoming Events'"
           :events-detail="true"
-          :events="upcomingEvents" />
+          :events="upcomingEvents"
+        />
         <app-event-listing
           :headline="'Lastest Events'"
           :events-detail="false"
-          :events="lastEvents" />
+          :events="lastEvents"
+        />
       </div>
     </div>
   </div>
