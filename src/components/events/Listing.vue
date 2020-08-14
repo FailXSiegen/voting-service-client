@@ -17,10 +17,10 @@
           <td>20.08.2020</td>
           <td>No</td>
           <td v-if="eventsDetail">
-            <router-link to="/#" class="btn btn-primary mx-1 my-2">Edit</router-link>
-            <router-link to="/#" class="btn btn-primary mx-1">Copy Invite Link</router-link>
-            <router-link to="/#" class="btn btn-primary mx-1">Open in new Tab</router-link>
-            <router-link to="/#" class="btn btn-primary mx-1">Close</router-link>
+            <button @click="onEdit" class="btn btn-primary mx-1 my-2">Edit</button>
+            <button @click="onInviteLink" class="btn btn-primary mx-1">Copy Invite Link</button>
+            <button @click="onNewTab" class="btn btn-primary mx-1">Open in new Tab</button>
+            <button @click="onClose" class="btn btn-primary mx-1">Close</button>
           </td>
       </tr>
       </tbody>
@@ -41,6 +41,20 @@ export default {
     events: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    onEdit () {
+      alert('Edit')
+    },
+    onInviteLink () {
+      alert('Copy invite link')
+    },
+    onNewTab () {
+      alert('Opens new Tab')
+    },
+    onClose () {
+      alert('Close Event')
     }
   }
 }

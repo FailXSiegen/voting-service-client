@@ -1,5 +1,5 @@
 <template>
-  <div class="events-container">
+  <div class="events-container container-fluid">
     <div class="row">
       <div class="col-12 col-md-3 bg-dark text-white py-3">
         <app-navigation />
@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import AppNavigation from './../components/Navigation'
-import AppEventListing from '../components/events/Listing'
+import AppNavigation from '../../components/Navigation'
+import AppEventListing from '../../components/events/Listing'
 
 export default {
   components: {

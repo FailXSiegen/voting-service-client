@@ -9,15 +9,15 @@ export default new Vuex.Store({
     views: [
       {
         title: 'Dashboard',
-        route: '/'
+        route: '/admin/dashboard'
       },
       {
         title: 'Events',
-        route: '/events'
+        route: '/admin/events'
       },
       {
         title: 'Polls',
-        route: '/polls'
+        route: '/admin/polls'
       }
     ],
     pagination: {
