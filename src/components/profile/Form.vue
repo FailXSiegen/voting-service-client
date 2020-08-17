@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { localize } from '../../helper/localizatiion-helper'
+import { localize } from '@/helper/localization-helper'
 
 export default {
   methods: {
