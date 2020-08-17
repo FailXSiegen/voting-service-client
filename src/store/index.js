@@ -9,7 +9,7 @@ export default new Vuex.Store({
     views: [
       {
         title: 'Dashboard',
-        route: '/admin/dashboard'
+        route: '/admin'
       },
       {
         title: 'Events',

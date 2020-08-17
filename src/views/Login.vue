@@ -4,7 +4,7 @@
       <div class="col-12 my-5">
         <h1 class="mb-4 text-center">{{ localize('view.login.headline.title') }}</h1>
         <div class="row justify-content-around mt-5">
-          <div class="mb-5 col-md-5 order-2 order-md-1 border">
+          <div class="mb-5 col-md-5 order-2 order-md-1 border py-3">
             <form @submit.prevent="onLoginById">
               <h2 class="mb-4">{{ localize('view.login.headline.eventIdent') }}</h2>
               <div class="form-group">
@@ -14,7 +14,7 @@
               <button type="submit" class="btn btn-primary btn-block">{{ localize('view.login.submitToEvent') }}</button>
             </form>
           </div>
-          <div class="mb-5 col-md-5 order-1 order-md-2 border">
+          <div class="mb-5 col-md-5 order-1 order-md-2 border py-3">
             <form @submit.prevent="onLoginUser">
               <h2 class="mb-4">{{ localize('view.login.headline.userLogin') }}</h2>
               <div class="form-group">
