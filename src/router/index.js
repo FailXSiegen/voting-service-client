@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import AppLogin from '@/views/Login'
 import AppDashboard from '@/views/admin/Dashboard'
 import AppEvents from '@/views/admin/Events'
-import AppPolls from '@/views/admin/Polls'
 import AppProfile from '@/views/admin/Profile'
 import AppUser from '@/views/User'
 // import store from '@/store'
@@ -27,12 +26,6 @@ const routes = [
     path: '/admin/events',
     name: 'Events',
     component: AppEvents
-    // meta: { requiresAuth: true }
-  },
-  {
-    path: '/admin/polls',
-    name: 'Polls',
-    component: AppPolls
     // meta: { requiresAuth: true }
   },
   {

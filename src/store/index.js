@@ -14,10 +14,6 @@ export default new Vuex.Store({
       {
         title: 'Events',
         route: '/admin/events'
-      },
-      {
-        title: 'Polls',
-        route: '/admin/polls'
       }
     ],
     pagination: {
