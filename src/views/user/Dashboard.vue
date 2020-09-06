@@ -29,11 +29,11 @@ export default {
         email: '',
         password: '',
         public_name: '',
-        allow_to_vote: true,
+        allowtoVote: true,
         online: true,
         verified: false,
         identifier: null,
-        event_coorganisator: false
+        eventCoOrganisator: false
       }
     }
   },

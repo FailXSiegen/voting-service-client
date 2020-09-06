@@ -3,14 +3,14 @@
     <li v-for="(user, index) in verifiedUsers" :key="index" class="list-group-item my-2 border">
       <div class="d-flex w-100 justify-content-between mb-1">
         <h5 class="mb-1">{{ user.public_name }}
-          <span class="text-success small" v-if="user.allow_to_vote">{{ localize('view.event.user.member') }}</span>
+          <span class="text-success small" v-if="user.allowToVote">{{ localize('view.event.user.member') }}</span>
           <span class="text-info small" v-else>{{ localize('view.event.user.visitor') }}</span>
         </h5>
         <span class="badge badge-success badge-pill status-indicator" v-if="user.online">online</span>
         <span class="badge badge-danger badge-pill status-indicator" v-else>offline</span>
       </div>
-      <button v-if="!user.allow_to_vote" class="btn btn-success mr-2">{{ localize('view.event.user.setTo') }} {{ localize('view.event.user.member') }}</button>
-      <button v-else-if="user.allow_to_vote" class="btn btn-info mr-2">{{ localize('view.event.user.setTo') }} {{ localize('view.event.user.visitor') }}</button>
+      <button v-if="!user.allowToVote" class="btn btn-success mr-2">{{ localize('view.event.user.setTo') }} {{ localize('view.event.user.member') }}</button>
+      <button v-else-if="user.allowToVote" class="btn btn-info mr-2">{{ localize('view.event.user.setTo') }} {{ localize('view.event.user.visitor') }}</button>
     </li>
   </ul>
 </template>
