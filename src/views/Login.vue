@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container container-fluid">
+  <div class="login-container container-fluid min-vh-100">
     <div class="row align-items-center justify-content-around h-100">
       <div class="col-12 my-5">
         <h1 class="mb-4 text-center">{{ localize('view.login.headline.title') }}</h1>
@@ -74,9 +74,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.login-container {
-  min-height: 100vh;
-}
-</style>
