@@ -22,18 +22,7 @@ export default {
   data () {
     return {
       user: {
-        uid: null,
-        create_datetime: null,
-        event_id: null,
-        username: '',
-        email: '',
-        password: '',
-        publicName: '',
-        allowtoVote: true,
-        online: true,
-        verified: false,
-        identifier: null,
-        eventCoOrganisator: false
+        verified: false
       }
     }
   },
