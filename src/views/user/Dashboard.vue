@@ -28,7 +28,7 @@ export default {
         username: '',
         email: '',
         password: '',
-        public_name: '',
+        publicName: '',
         allowtoVote: true,
         online: true,
         verified: false,

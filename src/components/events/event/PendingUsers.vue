@@ -2,7 +2,7 @@
   <ul class="allowed-users list-group">
     <li v-for="(user, index) in pendingUsers" :key="index" class="list-group-item">
       <div class="d-flex w-100 justify-content-between mb-3">
-        <h5 class="mb-1">{{ user.public_name }}</h5>
+        <h5 class="mb-1">{{ user.publicName }}</h5>
         <span class="badge badge-success badge-pill status-indicator" v-if="user.online">online</span>
         <span class="badge badge-danger badge-pill status-indicator" v-else>offline</span>
       </div>
