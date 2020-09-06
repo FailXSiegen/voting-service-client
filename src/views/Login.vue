@@ -11,9 +11,7 @@
                 <label for="eventIdent">{{ localize('view.login.label.eventIdent') }}</label>
                 <input id="eventIdent" class="form-control" type="text">
               </div>
-              <button type="submit" class="btn btn-primary btn-block">{{
-                  localize('view.login.submitToEvent')
-                }}
+              <button type="submit" class="btn btn-primary btn-block">{{ localize('view.login.submitToEvent') }}
               </button>
             </form>
           </div>

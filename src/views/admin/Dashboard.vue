@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard-container container-fluid">
-    <h1 v-if="hello">{{ hello }}</h1>
     <div class="row">
       <div class="col-12 col-md-3 bg-dark text-white py-3 order-2 order-lg-1">
         <app-navigation />
@@ -18,25 +17,17 @@
 </template>
 
 <script>
-
 import AppNavigation from '@/components/Navigation'
 import AppEventListing from '@/components/events/Listing'
 import { localize } from '@/helper/localization-helper'
-import gql from 'graphql-tag'
 
 export default {
   components: {
     AppNavigation,
     AppEventListing
   },
-  apollo: {
-    hello: {
-      query: gql`{hello(name: "dfsdfsdf")}`
-    }
-  },
   data () {
     return {
-      hello: '',
       headline: 'Dashboard',
       upcomingEvents: [
         {
