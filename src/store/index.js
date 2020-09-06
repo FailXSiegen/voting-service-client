@@ -26,51 +26,51 @@ export default new Vuex.Store({
         uid: 1234,
         username: 'habundloot',
         email: 'mo@habundloot.de',
-        publicName: 'Moritz Preuß',
-        allowToVote: true,
+        public_name: 'Moritz Preuß',
+        allow_to_vote: true,
         online: true,
         verified: true,
-        eventCoOrganizer: false
+        event_coorganisator: false
       },
       {
         uid: 23456,
         username: '0m3gaC0d3',
         email: 'technoutz@gmail.com',
-        publicName: 'Wolf Peterchens Mondfahrt',
-        allowToVote: false,
+        public_name: 'Wolf Peterchens Mondfahrt',
+        allow_to_vote: false,
         online: false,
         verified: true,
-        eventCoOrganizer: false
+        event_coorganisator: false
       },
       {
         uid: 34567,
         username: 'FailXSiegen',
         email: 'failX@fail2000.com',
-        publicName: 'Herr Felix Mann',
-        allowToVote: true,
+        public_name: 'Herr Felix Mann',
+        allow_to_vote: true,
         online: true,
         verified: true,
-        eventCoOrganizer: true
+        event_coorganisator: true
       },
       {
         uid: 45678,
         username: 'Testdummy2000',
         email: 'dumm@duemmer.com',
-        publicName: 'Pending Test Visitor',
-        allowToVote: false,
+        public_name: 'Pending Test Visitor',
+        allow_to_vote: false,
         online: true,
         verified: true,
-        eventCoOrganizer: false
+        event_coorganisator: false
       },
       {
         uid: 45678,
         username: 'Testdummy2000',
         email: 'dumm@duemmer.com',
-        publicName: 'Pending Test Member',
-        allowToVote: true,
+        public_name: 'Pending Test Member',
+        allow_to_vote: true,
         online: true,
         verified: false,
-        eventCoOrganizer: false
+        event_coorganisator: false
       }
     ]
   },
