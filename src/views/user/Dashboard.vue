@@ -2,7 +2,7 @@
   <div class="user-dashboard-container container-fluid bg-white min-vh-100">
     <div v-if="!this.user.verified" class="row min-vh-100 justify-content-center align-items-center">
       <div class="col-12 text-center">
-        <i class="bi-three-dots bi--spin bi--4xl mb-3"></i>
+        <i class="bi-arrow-repeat bi--spin bi--4xl mb-3"></i>
         <h1>{{ localize('view.user.pending.tankYou') }}</h1>
         <p>{{ localize('view.user.pending.bodyText') }}</p>
       </div>
@@ -31,7 +31,7 @@ export default {
         public_name: '',
         allow_to_vote: true,
         online: true,
-        verified: true,
+        verified: false,
         identifier: null,
         event_coorganisator: false
       }
