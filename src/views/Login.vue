@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container min-vh-100 container-fluid">
+  <div class="login-container container-fluid min-vh-100">
     <div class="row align-items-center justify-content-around h-100">
       <div class="col-12 my-5">
         <h1 class="mb-4 text-center">{{ localize('view.login.headline.title') }}</h1>
@@ -11,7 +11,8 @@
                 <label for="eventIdent">{{ localize('view.login.label.eventIdent') }}</label>
                 <input id="eventIdent" class="form-control" type="text" required="required">
               </div>
-              <button type="submit" class="btn btn-primary btn-block">{{ localize('view.login.submitToEvent') }}</button>
+              <button type="submit" class="btn btn-primary btn-block">{{ localize('view.login.submitToEvent') }}
+              </button>
             </form>
           </div>
           <div class="mb-5 col-md-5 order-1 order-md-2 border py-3">
@@ -38,17 +39,37 @@
 
 <script>
 import { localize } from '@/helper/localization-helper'
+import { login } from '@/graphql/auth'
+import * as R from 'ramda'
+import { onLogin as loginApolloClient } from '@/vue-apollo'
 
 export default {
+  data () {
+    return {
+      user: {
+        displayName: '',
+        email: '',
+        password: ''
+      }
+    }
+  },
   methods: {
+    onLoginUser () {
+      const loginType = 'organizer'
+      login(this.user.email, this.user.password, loginType).then(async (data) => {
+        const token = R.path(['token'], data)
+        const expiresAt = R.path(['expiresAt'], data)
+        await loginApolloClient(this.$apollo.provider.defaultClient, token, expiresAt)
+        await this.$router.push('/admin')
+      }).catch((error) => {
+        console.error(error)
+      })
+    },
     localize (path) {
-      return localize(path, this.$store.state.language)
+      return localize(path)
     },
     onLoginById () {
       alert('Login by ID')
-    },
-    onLoginUser () {
-      alert('Login as User')
     }
   }
 }
