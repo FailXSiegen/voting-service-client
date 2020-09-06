@@ -11,7 +11,10 @@
                 <label for="eventIdent">{{ localize('view.login.label.eventIdent') }}</label>
                 <input id="eventIdent" class="form-control" type="text">
               </div>
-              <button type="submit" class="btn btn-primary btn-block">{{ localize('view.login.submitToEvent') }}</button>
+              <button type="submit" class="btn btn-primary btn-block">{{
+                  localize('view.login.submitToEvent')
+                }}
+              </button>
             </form>
           </div>
           <div class="mb-5 col-md-5 order-1 order-md-2 border py-3">
@@ -19,11 +22,11 @@
               <h2 class="mb-4">{{ localize('view.login.headline.userLogin') }}</h2>
               <div class="form-group">
                 <label for="email">{{ localize('view.login.label.email') }}</label>
-                <input type="text" name="email" id="email" class="form-control">
+                <input v-model="user.email" type="text" name="email" id="email" class="form-control">
               </div>
               <div class="form-group">
                 <label for="password">{{ localize('view.login.label.password') }}</label>
-                <input type="password" name="password" id="password" class="form-control">
+                <input v-model="user.password" type="password" name="password" id="password" class="form-control">
               </div>
               <div class="form-group">
                 <button class="btn btn-primary btn-block float-right">{{ localize('view.login.submit') }}</button>
@@ -38,24 +41,44 @@
 
 <script>
 import { localize } from '@/helper/localization-helper'
+import { login } from '@/graphql/auth'
+import * as R from 'ramda'
+import { onLogin as loginApolloClient } from '@/vue-apollo'
 
 export default {
+  data () {
+    return {
+      user: {
+        displayName: '',
+        email: 'example@domain.tld',
+        password: '12345678'
+      }
+    }
+  },
   methods: {
+    onLoginUser () {
+      const loginType = 'organizer'
+      login(this.user.email, this.user.password, loginType).then(async (data) => {
+        const token = R.path(['token'], data)
+        const expiresAt = R.path(['expiresAt'], data)
+        await loginApolloClient(this.$apollo.provider.defaultClient, token, expiresAt)
+        await this.$router.push('/admin')
+      }).catch((error) => {
+        console.error(error)
+      })
+    },
     localize (path) {
-      return localize(path, this.$store.state.language)
+      return localize(path)
     },
     onLoginById () {
       alert('Login by ID')
-    },
-    onLoginUser () {
-      alert('Login as User')
     }
   }
 }
 </script>
 
 <style scoped>
-  .login-container {
-    min-height: 100vh;
-  }
+.login-container {
+  min-height: 100vh;
+}
 </style>
