@@ -56,6 +56,7 @@ const routes = [
   {
     path: '/admin/event',
     name: 'MemberList',
+    props: true,
     component: AppMemberList
     // meta: { requiresAuth: true }
   },
