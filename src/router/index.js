@@ -19,71 +19,71 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: AppLogin
-    // meta: { requiresAuth: true }
+    component: AppLogin,
+    meta: { requiresAuth: false }
   },
   {
     path: '/admin',
     name: 'Admin',
-    component: AppDashboard
-    // meta: { requiresAuth: true }
+    component: AppDashboard,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/events',
     name: 'Events',
-    component: AppEvents
-    // meta: { requiresAuth: true }
+    component: AppEvents,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/profile',
     name: 'Profile',
-    component: AppProfile
-    // meta: { requiresAuth: true }
+    component: AppProfile,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/new',
-    name: 'Create Event',
-    component: AppCreateEvent
-    // meta: { requiresAuth: true }
+    name: 'CreateEvent',
+    component: AppCreateEvent,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/update',
     name: 'updateEvent',
     props: true,
-    component: AppUpdateEvent
-    // meta: { requiresAuth: true }
+    component: AppUpdateEvent,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/event',
     name: 'MemberList',
     props: true,
-    component: AppMemberList
-    // meta: { requiresAuth: true }
+    component: AppMemberList,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/polls',
     name: 'Polls',
-    component: AppPolls
-    // meta: { requiresAuth: true }
+    component: AppPolls,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/waitingroom',
     name: 'Waiting Room',
-    component: AppWaitingRoom
-    // meta: { requiresAuth: true }
+    component: AppWaitingRoom,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/results',
     name: 'Results',
-    component: AppResults
-    // meta: { requiresAuth: true }
+    component: AppResults,
+    meta: { requiresAuth: true }
   },
   {
     path: '/:eventSlug',
     name: 'Event',
     props: true,
-    component: AppUserEvent
-    // meta: { requiresAuth: true }
+    component: AppUserEvent,
+    meta: { requiresAuth: false }
   }
 ]
 

@@ -20,11 +20,17 @@ import AppVerifiedUsers from '@/components/events/event/VerifiedUsers'
 import { localize } from '@/helper/localization-helper'
 
 export default {
+  props: {
+    eventRecord: {
+      type: Object
+    }
+  },
   components: {
     AppNavigation,
     AppVerifiedUsers
   },
   data () {
+    console.log(this.eventRecord)
     return {
       headline: 'Teilnehmerliste'
     }

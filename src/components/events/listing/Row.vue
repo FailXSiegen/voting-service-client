@@ -20,7 +20,7 @@
               :title="localize('view.event.listing.actions.inviteLink')">
         <i class="bi-files bi--2xl"></i>
       </a>
-      <router-link :to="{ name: 'AppMemberList', params: { eventRecord }}"
+      <router-link :to="{ name: 'MemberList', params: { eventRecord }}"
          class="btn btn-info mx-1 my-2"
                    :title="localize('view.event.listing.actions.newTab')">
         <i class="bi-eye-fill bi--2xl"></i>
