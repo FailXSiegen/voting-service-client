@@ -1,8 +1,9 @@
 <template>
   <nav id="mainNavigation">
+    <span class="h2 my-3 d-block">{{ eventRecord.title }}</span>
     <div class="list-group">
       <router-link
-        to="/event"
+        :to="{ name: 'MemberList', params: { eventRecord }}"
         class="list-group-item list-group-item-action list-group-item-dark mb-3 rounded">
         {{ localize('view.event.navigation.members') }}
         <span class="badge badge-success badge-pill">
@@ -10,7 +11,7 @@
         </span>
       </router-link>
       <router-link
-        to="/event/waitingroom"
+        :to="{ name: 'WaitingRoom', params: { eventRecord }}"
         class="list-group-item list-group-item-action list-group-item-dark mb-3 rounded">
         {{ localize('view.event.navigation.waitingRoom') }}
         <span class="badge badge-warning badge-pill">
@@ -18,12 +19,12 @@
         </span>
       </router-link>
       <router-link
-        to="/event/polls"
+        :to="{ name: 'Polls', params: { eventRecord }}"
         class="list-group-item list-group-item-action list-group-item-dark mb-3 rounded">
         {{ localize('view.event.navigation.polls') }}
       </router-link>
       <router-link
-        to="/event/results"
+        :to="{ name: 'Results', params: { eventRecord }}"
         class="list-group-item list-group-item-action list-group-item-dark mb-3 rounded">
         {{ localize('view.event.navigation.results') }}
       </router-link>
@@ -36,7 +37,14 @@
 import { localize } from '@/helper/localization-helper'
 
 export default {
+  props: {
+    eventRecord: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
+    console.log(this.eventRecord)
     return {}
   },
   methods: {

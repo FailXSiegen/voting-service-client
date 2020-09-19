@@ -68,7 +68,7 @@ const routes = [
   },
   {
     path: '/admin/event/waitingroom',
-    name: 'Waiting Room',
+    name: 'WaitingRoom',
     component: AppWaitingRoom,
     meta: { requiresAuth: true }
   },

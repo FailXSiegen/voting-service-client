@@ -79,7 +79,7 @@ const localizations = {
             label: 'Aktionen',
             edit: 'Bearbeiten',
             inviteLink: 'Einladungs-Link kopieren',
-            newTab: 'Event in neuem Tab öffnen',
+            newTab: 'Event-Organisation in neuem Tab öffnen',
             close: 'Event beenden'
           }
         },

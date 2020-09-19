@@ -5,18 +5,18 @@
         <h1 class="mb-4 text-center">{{ localize('view.login.headline.title') }}</h1>
         <div class="row justify-content-around mt-5">
           <div class="mb-5 col-md-5 order-2 order-md-1 border py-3">
-            <form @submit.prevent="onLoginById">
+            <form id="event-form" @submit.prevent="onLoginById">
               <h2 class="mb-4">{{ localize('view.login.headline.eventIdent') }}</h2>
               <div class="form-group">
-                <label for="eventIdent">{{ localize('view.login.label.eventIdent') }}</label>
-                <input id="eventIdent" class="form-control" type="text" required="required">
+                <label for="eventSlug">{{ localize('view.login.label.eventIdent') }}</label>
+                <input v-model="eventSlug" id="eventSlug" class="form-control" type="text" required="required">
               </div>
               <button type="submit" class="btn btn-primary btn-block">{{ localize('view.login.submitToEvent') }}
               </button>
             </form>
           </div>
           <div class="mb-5 col-md-5 order-1 order-md-2 border py-3">
-            <form @submit.prevent="onLoginUser">
+            <form id="organizer-form" @submit.prevent="onLoginUser">
               <h2 class="mb-4">{{ localize('view.login.headline.orgaLogin') }}</h2>
               <div class="form-group">
                 <label for="email">{{ localize('view.login.label.email') }}</label>
@@ -42,6 +42,7 @@ import { localize } from '@/helper/localization-helper'
 import { login } from '@/graphql/auth'
 import * as R from 'ramda'
 import { onLogin as loginApolloClient } from '@/vue-apollo'
+import { fetchEventBySlug } from '@/api/event'
 
 export default {
   data () {
@@ -50,7 +51,8 @@ export default {
         displayName: '',
         email: '',
         password: ''
-      }
+      },
+      eventSlug: ''
     }
   },
   methods: {
@@ -63,6 +65,10 @@ export default {
         await this.$store.dispatch('extractUserData')
         await this.$router.push('/admin')
       }).catch((error) => {
+        const formInputs = document.querySelectorAll('#organizer-form .form-control')
+        for (let i = 0; i < formInputs.length; i++) {
+          formInputs[i].classList.add('is-invalid')
+        }
         console.error(error)
       })
     },
@@ -70,7 +76,18 @@ export default {
       return localize(path)
     },
     onLoginById () {
-      alert('Login by ID')
+      fetchEventBySlug(this.eventSlug).then(async (data) => {
+        if (data.success) {
+          await this.$router.push('/' + data.event.slug)
+        } else {
+          const formInputs = document.querySelectorAll('#event-form .form-control')
+          for (let i = 0; i < formInputs.length; i++) {
+            formInputs[i].classList.add('is-invalid')
+          }
+        }
+      }).catch((error) => {
+        console.error(error)
+      })
     }
   }
 }
