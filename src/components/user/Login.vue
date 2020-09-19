@@ -64,7 +64,6 @@ export default {
         const expiresAt = R.path(['expiresAt'], data)
         await loginApolloClient(this.$apollo.provider.defaultClient, token, expiresAt)
         await this.$store.dispatch('extractUserData')
-        console.log(this.$store.getters.getCurrentUserVerified)
         this.$emit('changeComponent', {
           component: 'AppUserDashboard',
           verified: this.$store.getters.getCurrentUserVerified

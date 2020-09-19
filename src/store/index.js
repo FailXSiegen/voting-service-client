@@ -12,7 +12,8 @@ export default new Vuex.Store({
     currentUser: {
       type: null,
       id: null,
-      role: null
+      role: null,
+      verified: null
     },
     views: [
       {
@@ -60,8 +61,8 @@ export default new Vuex.Store({
       state.currentUser = {
         type: R.path(['payload', 'user', 'type'], decodedToken),
         id: R.path(['payload', 'user', 'id'], decodedToken),
-        verified: R.path(['payload', 'user', 'verified'], decodedToken),
-        role: R.path(['payload', 'role'], decodedToken)
+        role: R.path(['payload', 'role'], decodedToken),
+        verified: R.path(['payload', 'user', 'verified'], decodedToken)
       }
     }
   },
