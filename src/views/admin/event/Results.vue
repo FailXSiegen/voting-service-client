@@ -20,11 +20,8 @@ import AppResults from '@/components/events/event/ResultsListing'
 import { localize } from '@/helper/localization-helper'
 
 export default {
-  props: {
-    eventRecord: {
-      type: Object,
-      required: true
-    }
+  created () {
+    this.eventRecord = this.$route.params.eventRecord
   },
   components: {
     AppNavigation,
@@ -32,7 +29,8 @@ export default {
   },
   data () {
     return {
-      headline: 'Umfrage-Ergebnisse'
+      headline: 'Umfrage-Ergebnisse',
+      eventRecord: []
     }
   },
   methods: {

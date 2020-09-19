@@ -21,10 +21,7 @@ import { localize } from '@/helper/localization-helper'
 
 export default {
   props: {
-    eventRecord: {
-      type: Object,
-      required: true
-    }
+    eventRecord: Object
   },
   components: {
     AppNavigation,

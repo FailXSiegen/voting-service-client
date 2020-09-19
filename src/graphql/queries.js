@@ -40,6 +40,7 @@ export const EVENTUSERS_BY_EVENT = gql`
       verified
       allowToVote
       online
+      username
     }
   }
 `

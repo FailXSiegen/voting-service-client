@@ -44,6 +44,9 @@ export default new Vuex.Store({
         throw new Error('Could not fetch id from store')
       }
       return id
+    },
+    getCurrentUserVerified: state => {
+      return R.path(['currentUser', 'verified'], state)
     }
   },
   mutations: {
@@ -57,6 +60,7 @@ export default new Vuex.Store({
       state.currentUser = {
         type: R.path(['payload', 'user', 'type'], decodedToken),
         id: R.path(['payload', 'user', 'id'], decodedToken),
+        verified: R.path(['payload', 'user', 'verified'], decodedToken),
         role: R.path(['payload', 'role'], decodedToken)
       }
     }

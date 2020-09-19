@@ -7,7 +7,7 @@
       <div class="col-12 col-md-9 py-3 order-1 order-lg-2">
         <h1>{{ headline }}</h1>
         <hr>
-        <app-pending-users />
+        <app-pending-users :eventRecord="eventRecord" />
       </div>
     </div>
   </div>
@@ -19,11 +19,8 @@ import AppNavigation from '@/components/events/event/Navigation'
 import AppPendingUsers from '@/components/events/event/PendingUsers'
 
 export default {
-  props: {
-    eventRecord: {
-      type: Object,
-      required: true
-    }
+  created () {
+    this.eventRecord = this.$route.params.eventRecord
   },
   components: {
     AppNavigation,
@@ -31,7 +28,8 @@ export default {
   },
   data () {
     return {
-      headline: 'Warteraum'
+      headline: 'Warteraum',
+      eventRecord: []
     }
   }
 }

@@ -28,23 +28,23 @@
         class="list-group-item list-group-item-action list-group-item-dark mb-3 rounded">
         {{ localize('view.event.navigation.results') }}
       </router-link>
+      <router-link
+        :to="{ name: 'Events' }"
+         class="mt-5 list-group-item list-group-item-action bg-danger list-group-item-dark mb-3 rounded">
+        {{ localize('view.event.navigation.back') }}
+      </router-link>
     </div>
   </nav>
 </template>
 
 <script>
-
 import { localize } from '@/helper/localization-helper'
 
 export default {
   props: {
-    eventRecord: {
-      type: Object,
-      required: true
-    }
+    eventRecord: Object
   },
   data () {
-    console.log(this.eventRecord)
     return {}
   },
   methods: {
