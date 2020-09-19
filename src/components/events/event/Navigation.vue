@@ -42,7 +42,10 @@ import { localize } from '@/helper/localization-helper'
 
 export default {
   props: {
-    eventRecord: Object
+    eventRecord: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {}

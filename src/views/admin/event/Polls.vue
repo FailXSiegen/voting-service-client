@@ -20,8 +20,11 @@ import AppPolls from '@/components/events/event/Polls'
 import { localize } from '@/helper/localization-helper'
 
 export default {
-  created () {
-    this.eventRecord = this.$route.params.eventRecord
+  props: {
+    eventRecord: {
+      type: Object,
+      required: true
+    }
   },
   components: {
     AppNavigation,
@@ -29,8 +32,7 @@ export default {
   },
   data () {
     return {
-      headline: 'Umfragen',
-      eventRecord: []
+      headline: 'Umfragen'
     }
   },
   methods: {

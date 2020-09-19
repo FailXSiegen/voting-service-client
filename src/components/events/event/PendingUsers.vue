@@ -27,7 +27,10 @@ import { updateEventUserVerified } from '@/graphql/mutations'
 
 export default {
   props: {
-    eventRecord: Object
+    eventRecord: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {

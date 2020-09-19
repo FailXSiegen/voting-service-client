@@ -19,8 +19,11 @@ import AppNavigation from '@/components/events/event/Navigation'
 import AppPendingUsers from '@/components/events/event/PendingUsers'
 
 export default {
-  created () {
-    this.eventRecord = this.$route.params.eventRecord
+  props: {
+    eventRecord: {
+      type: Object,
+      required: true
+    }
   },
   components: {
     AppNavigation,
@@ -28,8 +31,7 @@ export default {
   },
   data () {
     return {
-      headline: 'Warteraum',
-      eventRecord: []
+      headline: 'Warteraum'
     }
   }
 }

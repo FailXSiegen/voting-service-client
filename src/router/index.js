@@ -63,18 +63,21 @@ const routes = [
   {
     path: '/admin/event/polls',
     name: 'Polls',
+    props: true,
     component: AppPolls,
     meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/waitingroom',
     name: 'WaitingRoom',
+    props: true,
     component: AppWaitingRoom,
     meta: { requiresAuth: true }
   },
   {
     path: '/admin/event/results',
     name: 'Results',
+    props: true,
     component: AppResults,
     meta: { requiresAuth: true }
   },
