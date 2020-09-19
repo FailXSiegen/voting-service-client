@@ -32,7 +32,7 @@ export const EXPIRED_EVENTS = gql`
   }
 `
 
-export const EVENTUSERS_BY_EVENT = gql`
+export const EVENT_USERS_BY_EVENT = gql`
   query findEventUserByEvent($eventId: ID, $verified: Boolean) {
     findEventUserByEvent(eventId: $eventId, verified: $verified) {
       id

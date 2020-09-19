@@ -56,6 +56,12 @@ export default {
     }
   },
   methods: {
+    validateInput (parentId) {
+      const formInputs = document.querySelectorAll(parentId + '.form-control')
+      for (let i = 0; i < formInputs.length; i++) {
+        formInputs[i].classList.add('is-invalid')
+      }
+    },
     onLoginUser () {
       const loginType = 'organizer'
       login(this.user.email, this.user.password, loginType).then(async (data) => {
@@ -65,10 +71,7 @@ export default {
         await this.$store.dispatch('extractUserData')
         await this.$router.push('/admin')
       }).catch((error) => {
-        const formInputs = document.querySelectorAll('#organizer-form .form-control')
-        for (let i = 0; i < formInputs.length; i++) {
-          formInputs[i].classList.add('is-invalid')
-        }
+        this.validateInput('#organizer-form')
         console.error(error)
       })
     },
@@ -80,10 +83,7 @@ export default {
         if (data.success) {
           await this.$router.push('/' + data.event.slug)
         } else {
-          const formInputs = document.querySelectorAll('#event-form .form-control')
-          for (let i = 0; i < formInputs.length; i++) {
-            formInputs[i].classList.add('is-invalid')
-          }
+          this.validateInput('#event-form')
         }
       }).catch((error) => {
         console.error(error)

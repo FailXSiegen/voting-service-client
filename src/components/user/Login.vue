@@ -66,7 +66,7 @@ export default {
         await this.$store.dispatch('extractUserData')
         this.$emit('changeComponent', {
           component: 'AppUserDashboard',
-          verified: this.$store.getters.getCurrentUserVerified
+          verified: this.$store.getters.isCurrentUserVerfied
         })
       }).catch((error) => {
         console.error(error)

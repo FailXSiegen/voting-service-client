@@ -16,10 +16,11 @@
               :title="localize('view.event.listing.actions.edit')">
         <i class="bi-pencil-square bi--2xl"></i>
       </router-link>
-      <a :href="'/'+event.slug" class="btn btn-secondary mx-1 my-2"
+      <router-link :to="{ name: 'Event', params: { eventSlug: event.slug }}"
+                   class="btn btn-secondary mx-1 my-2"
               :title="localize('view.event.listing.actions.inviteLink')">
         <i class="bi-files bi--2xl"></i>
-      </a>
+      </router-link>
       <router-link :to="{ name: 'MemberList', params: { eventRecord }}"
          class="btn btn-info mx-1 my-2"
                    :title="localize('view.event.listing.actions.newTab')">

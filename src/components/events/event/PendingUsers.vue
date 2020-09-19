@@ -22,7 +22,7 @@
 <script>
 
 import { localize } from '@/helper/localization-helper'
-import { EVENTUSERS_BY_EVENT } from '@/graphql/queries'
+import { EVENT_USERS_BY_EVENT } from '@/graphql/queries'
 import { updateEventUserVerified } from '@/graphql/mutations'
 
 export default {
@@ -79,7 +79,7 @@ export default {
   },
   apollo: {
     eventUsersByEvent: {
-      query: EVENTUSERS_BY_EVENT,
+      query: EVENT_USERS_BY_EVENT,
       update (data) {
         return data.findEventUserByEvent
       },

@@ -46,7 +46,7 @@ export default new Vuex.Store({
       }
       return id
     },
-    getCurrentUserVerified: state => {
+    isCurrentUserVerfied: state => {
       return R.path(['currentUser', 'verified'], state)
     }
   },
