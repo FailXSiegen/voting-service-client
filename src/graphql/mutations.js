@@ -1,19 +1,14 @@
 import gql from 'graphql-tag'
 
-export function updateEventUser () {
-  return gql`mutation updateEventUser($input: UpdateEventUserInput!){
-    updateEventUser(input: $input) {
-      id
-    }
-  }`
-}
-
-export function updateEventUserVerified () {
-  return gql`mutation updateEventUserVerified($input: UpdateEventUserVerifiedInput!){
-    updateEventUserVerified(input: $input) {
-      id
-      verified
-      allowToVote
-    }
-  }`
-}
+export const UPDATE_EVENT_USER = gql`mutation updateEventUser($input: UpdateEventUserInput!){
+  updateEventUser(input: $input) {
+    id
+  }
+}`
+export const UPDATE_EVENT_USER_VERIFIED = gql`mutation updateEventUserVerified($input: UpdateEventUserVerifiedInput!){
+  updateEventUserVerified(input: $input) {
+    id
+    verified
+    allowToVote
+  }
+}`

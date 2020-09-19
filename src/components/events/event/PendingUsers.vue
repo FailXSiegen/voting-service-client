@@ -23,7 +23,7 @@
 
 import { localize } from '@/helper/localization-helper'
 import { EVENT_USERS_BY_EVENT } from '@/graphql/queries'
-import { updateEventUserVerified } from '@/graphql/mutations'
+import { UPDATE_EVENT_USER_VERIFIED } from '@/graphql/mutations'
 
 export default {
   props: {
@@ -46,7 +46,7 @@ export default {
     },
     verifyWithVoting (userId) {
       this.$apollo.mutate({
-        mutation: updateEventUserVerified(),
+        mutation: UPDATE_EVENT_USER_VERIFIED,
         variables: {
           input: {
             id: userId,
@@ -62,7 +62,7 @@ export default {
     },
     verifyAsGuest (userId) {
       this.$apollo.mutate({
-        mutation: updateEventUserVerified(),
+        mutation: UPDATE_EVENT_USER_VERIFIED,
         variables: {
           input: {
             id: userId,
