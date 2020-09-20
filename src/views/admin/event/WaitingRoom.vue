@@ -22,7 +22,7 @@ import { fetchEventBySlug } from '@/api/event'
 export default {
   async created () {
     const response = await fetchEventBySlug(this.eventSlug)
-    if (response === null || response.success === false) {
+    if (response === null || response.success === false || response.event.organizerId !== this.$store.getters.getCurrentUserId) {
       await this.$router.push('/admin/events')
     }
     this.eventRecord = response.event
