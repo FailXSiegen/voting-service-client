@@ -30,7 +30,7 @@
       <div v-if="newPoll.pollAnswer === 'custom'" class="individual-options my-4 border ml-4 p-3">
         <div class="form-group">
           <label for="pollAnswerPossibilitiesCustomList">{{ localize('view.polls.create.labels.listOfAnswerOptions') }}</label>
-          <textarea v-model="newPoll.custom.list" class="form-control" id="pollAnswerPossibilitiesCustomList" rows="3"
+          <textarea v-model="newPoll.list" class="form-control" id="pollAnswerPossibilitiesCustomList" rows="3"
                     aria-describedby="pollAnswerPossibilitiesCustomListHelpBlock"></textarea>
           <small id="pollAnswerPossibilitiesCustomListHelpBlock" class="form-text text-muted">
             {{ localize('view.polls.create.labels.listOfAnswerOptionsInfo') }}
@@ -38,7 +38,7 @@
         </div>
         <div class="form-group">
           <label for="pollAnswerPossibilitiesCustomListMaximal">{{ localize('view.polls.create.labels.maxVotes') }}</label>
-          <input v-model="newPoll.custom.maxVotes" type="number"
+          <input v-model="newPoll.maxVotes" type="number"
                  class="form-control w-auto"
                  id="pollAnswerPossibilitiesCustomListMaximal"
                  aria-describedby="pollAnswerPossibilitiesCustomListMaximalHelpBlock">
@@ -48,7 +48,7 @@
         </div>
         <div class="form-group">
           <label for="pollAnswerPossibilitiesCustomListMinimal">{{ localize('view.polls.create.labels.minVotes') }}</label>
-          <input v-model="newPoll.custom.minVotes" type="number"
+          <input v-model="newPoll.minVotes" type="number"
                  class="form-control w-auto"
                  id="pollAnswerPossibilitiesCustomListMinimal"
                  aria-describedby="pollAnswerPossibilitiesCustomListMinimalHelpBlock">
@@ -57,7 +57,7 @@
           </small>
         </div>
         <div class="form-check">
-          <input v-model="newPoll.custom.allowAbstain" class="form-check-input" type="checkbox" id="pollAnswerPossibilitiesCustomListAbstention">
+          <input v-model="newPoll.allowAbstain" class="form-check-input" type="checkbox" id="pollAnswerPossibilitiesCustomListAbstention">
           <label class="form-check-label" for="pollAnswerPossibilitiesCustomListAbstention">
             {{ localize('view.polls.create.labels.abstention') }}
           </label>
@@ -65,13 +65,13 @@
       </div>
       <div class="poll-type my-3 alert alert-secondary">
         <div class="form-check">
-          <input v-model="newPoll.pollType" class="form-check-input" type="radio" name="pollType" id="pollType1" value="public">
+          <input v-model="newPoll.type" class="form-check-input" type="radio" name="pollType" id="pollType1" value="PUBLIC">
           <label class="form-check-label" for="pollType1">
             {{ localize('view.polls.create.labels.openPoll') }}
           </label>
         </div>
         <div class="form-check">
-          <input v-model="newPoll.pollType" class="form-check-input" type="radio" name="pollType" id="pollType2" value="secret">
+          <input v-model="newPoll.type" class="form-check-input" type="radio" name="pollType" id="pollType2" value="SECRET">
           <label class="form-check-label" for="pollType2">
             {{ localize('view.polls.create.labels.secretPoll') }}
           </label>
@@ -111,61 +111,56 @@ export default {
       newPoll: {
         eventId: this.eventRecord.id,
         title: '',
-        pollType: 'public'
-      },
-      newPollAnswer: {
+        type: 'PUBLIC',
         pollAnswer: 'yesNoAbstain',
-        possibleAnswers: [
-          {
-            content: 'yes'
-          },
-          {
-            content: 'no'
-          },
-          {
-            content: 'abstain'
-          }
-        ],
-        custom: {
-          list: '',
-          allowAbstain: false,
-          minVotes: 1,
-          maxVotes: 1
-        }
+        list: '',
+        minVotes: 0,
+        maxVotes: 1,
+        allowAbstain: false,
+        possibleAnswers: []
       }
     }
   },
   methods: {
     convertNewAnswer () {
-      switch (this.newPollAnswer.possibleAnswers) {
+      delete this.newPoll.possibleAnswers
+      this.newPoll.possibleAnswers = []
+      switch (this.newPoll.pollAnswer) {
         case 'yesNoAbstain':
-          this.newPollAnswer.possibleAnswers = [
+          this.newPoll.possibleAnswers = [
             {
-              content: 'yes'
+              content: 'Ja'
             },
             {
-              content: 'no'
+              content: 'Nein'
             },
             {
-              content: 'abstain'
+              content: 'Enthaltung'
             }
           ]
           break
         case 'yesNo':
-          this.newPollAnswer.possibleAnswers = [
+          this.newPoll.possibleAnswers = [
             {
-              content: 'yes'
+              content: 'Ja'
             },
             {
-              content: 'no'
+              content: 'Nein'
             }
           ]
           break
         case 'custom':
+          for (const customAnswer of this.newPoll.list.split('\n')) {
+            this.newPoll.possibleAnswers.push({ content: customAnswer })
+          }
+
           break
       }
     },
     createPoll () {
+      this.convertNewAnswer()
+      delete this.newPoll.pollAnswer
+      delete this.newPoll.list
       this.$apollo.mutate({
         mutation: CREATE_POLL,
         variables: { input: this.newPoll }
