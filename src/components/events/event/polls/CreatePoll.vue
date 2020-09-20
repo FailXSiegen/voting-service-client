@@ -98,6 +98,7 @@
 <script>
 import { localize } from '@/helper/localization-helper'
 import { CREATE_POLL } from '@/graphql/mutations'
+import { convertPollAnswers } from '@/converter/poll/convertPollAnswers'
 
 export default {
   props: {
@@ -122,43 +123,8 @@ export default {
     }
   },
   methods: {
-    convertNewAnswer () {
-      delete this.newPoll.possibleAnswers
-      this.newPoll.possibleAnswers = []
-      switch (this.newPoll.pollAnswer) {
-        case 'yesNoAbstain':
-          this.newPoll.possibleAnswers = [
-            {
-              content: 'Ja'
-            },
-            {
-              content: 'Nein'
-            },
-            {
-              content: 'Enthaltung'
-            }
-          ]
-          break
-        case 'yesNo':
-          this.newPoll.possibleAnswers = [
-            {
-              content: 'Ja'
-            },
-            {
-              content: 'Nein'
-            }
-          ]
-          break
-        case 'custom':
-          for (const customAnswer of this.newPoll.list.split('\n')) {
-            this.newPoll.possibleAnswers.push({ content: customAnswer })
-          }
-
-          break
-      }
-    },
     createPoll () {
-      this.convertNewAnswer()
+      this.newPoll = convertPollAnswers(this.newPoll)
       delete this.newPoll.pollAnswer
       delete this.newPoll.list
       this.$apollo.mutate({
