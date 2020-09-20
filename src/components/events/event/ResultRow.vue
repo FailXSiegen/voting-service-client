@@ -70,9 +70,6 @@ export default {
       required: true
     }
   },
-  data () {
-    return {}
-  },
   methods: {
     localize (path) {
       return localize(path)
