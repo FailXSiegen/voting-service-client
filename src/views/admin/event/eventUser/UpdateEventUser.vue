@@ -58,7 +58,6 @@ export default {
   methods: {
     updateEventUser () {
       this.eventUserRecord.eventId = this.eventRecord.id
-      this.eventUserRecord.verified = true
       this.eventUserRecord.voteAmount = parseInt(this.eventUserRecord.voteAmount)
       if (!this.eventUserRecord.allowToVote) {
         this.eventUserRecord.voteAmount = 0

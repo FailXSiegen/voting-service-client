@@ -10,11 +10,14 @@
       </div>
       <div v-else class="row min-vh-100 justify-content-center align-items-center">
         <div class="col-12">
-          <h1>{{ localize('view.user.verified.welcome') }} {{ eventUser.publicName }}</h1>
+          <h1>{{ eventRecord.title }}</h1>
+          <h2>{{ localize('view.user.verified.welcome') }} {{ eventUser.publicName }}</h2>
+          <hr />
+          <p v-if="eventRecord.description">{{ eventRecord.description }}</p>
         </div>
       </div>
     </div>
-    <app-modal-poll v-if="poll" :identifier="'poll' + poll.id" :poll="poll" :trigger="openModal" />
+    <app-modal-poll v-if="poll && eventUser.allowToVote" :identifier="'poll' + poll.id" :poll="poll" :trigger="openModal" />
   </section>
 </template>
 
@@ -27,6 +30,12 @@ import AppModalPoll from '@/components/modal/Poll'
 export default {
   components: {
     AppModalPoll
+  },
+  props: {
+    eventRecord: {
+      type: Object,
+      required: true
+    }
   },
   apollo: {
     eventUser: {
@@ -60,7 +69,7 @@ export default {
     return {
       eventUser: null,
       poll: null,
-      openModal: false
+      openModal: true
     }
   },
   methods: {
