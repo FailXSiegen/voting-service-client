@@ -14,10 +14,18 @@
           <h2>{{ localize('view.user.verified.welcome') }} {{ eventUser.publicName }}</h2>
           <hr />
           <p v-if="eventRecord.description">{{ eventRecord.description }}</p>
+          <app-modal-poll v-if="pollState === 'new' && eventUser.allowToVote"
+                          @onPollStateChange="onPollState"
+                          :identifier="'poll' + poll.id"
+                          :poll="poll"
+                          :trigger="openModal" />
+          <button @click="onLogout" class="logout btn btn-danger py-3 d-flex align-items-center">
+            <i class="mr-3 bi bi-x-square bi--2xl"></i> {{ localize('navigation.logOut') }}
+          </button>
         </div>
       </div>
     </div>
-    <app-modal-poll v-if="poll && eventUser.allowToVote" :identifier="'poll' + poll.id" :poll="poll" :trigger="openModal" />
+
   </section>
 </template>
 
@@ -26,6 +34,7 @@ import { localize } from '@/helper/localization-helper'
 import { POLL_LIFE_CYCLE, UPDATE_EVENT_USER_ACCESS_RIGHTS } from '@/graphql/subscriptions'
 import { EVENT_USER_BY_ID } from '@/graphql/queries'
 import AppModalPoll from '@/components/modal/Poll'
+import { onLogout as apolloOnLogout } from '@/vue-apollo'
 
 export default {
   components: {
@@ -61,6 +70,7 @@ export default {
         query: POLL_LIFE_CYCLE,
         result ({ data }) {
           this.poll = data.pollLifeCycle.poll
+          this.pollState = data.pollLifeCycle.state
         }
       }
     }
@@ -69,10 +79,18 @@ export default {
     return {
       eventUser: null,
       poll: null,
-      openModal: true
+      openModal: true,
+      pollState: ''
     }
   },
   methods: {
+    async onLogout () {
+      await apolloOnLogout(this.$apollo.provider.defaultClient)
+      window.location.href = '/'
+    },
+    onPollState (state) {
+      this.pollState = state
+    },
     localize (path) {
       return localize(path, this.$store.state.language)
     }
