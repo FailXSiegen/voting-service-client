@@ -15,7 +15,7 @@
           <hr />
           <p v-if="eventRecord.description">{{ eventRecord.description }}</p>
           <app-modal-poll v-if="pollState === 'new' && eventUser.allowToVote"
-                          @onPollStateChange="onPollState"
+                          @updatePollState="changePollState"
                           :identifier="'poll' + poll.id"
                           :poll="poll"
                           :trigger="openModal" />
@@ -86,9 +86,9 @@ export default {
   methods: {
     async onLogout () {
       await apolloOnLogout(this.$apollo.provider.defaultClient)
-      window.location.href = '/'
+      await this.$router.push({ name: 'Login' })
     },
-    onPollState (state) {
+    changePollState (state) {
       this.pollState = state
     },
     localize (path) {

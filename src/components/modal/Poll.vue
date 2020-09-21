@@ -78,7 +78,7 @@ export default {
     },
     onPollSubmit () {
       $('#' + this.identifier).modal('toggle')
-      this.$emit('onPollStateChange', 'voted')
+      this.$emit('updatePollState', 'voted')
     }
   }
 }
