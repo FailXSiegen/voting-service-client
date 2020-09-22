@@ -58,11 +58,12 @@ export default {
     $subscribe: {
       updateEventUserAccessRights: {
         query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
-        result ({ data }) {
-          const id = parseInt(data.updateEventUserAccessRights.eventUserId)
-          if (id !== this.$store.getters.getCurrentUserId) {
-            return
+        variables () {
+          return {
+            eventUserId: this.$store.getters.getCurrentUserId
           }
+        },
+        result ({ data }) {
           this.$apollo.queries.eventUser.refetch()
         }
       },
