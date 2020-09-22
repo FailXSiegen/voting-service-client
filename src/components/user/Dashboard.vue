@@ -1,5 +1,9 @@
 <template>
   <section class="user-dashboard-container">
+
+    <p v-if="eventUser">verified: {{ eventUser.verified }}</p>
+    <p v-if="eventUser">allowToVote: {{ eventUser.allowToVote }}</p>
+
     <div v-if="eventUser" class="container bg-white min-vh-100">
       <div v-if="!eventUser.verified" class="row min-vh-100 justify-content-center align-items-center">
         <div class="col-12 text-center">
@@ -64,7 +68,8 @@ export default {
           }
         },
         result ({ data }) {
-          this.$apollo.queries.eventUser.refetch()
+          this.eventUser.verified = data.updateEventUserAccessRights.verified
+          this.eventUser.allowToVote = data.updateEventUserAccessRights.allowToVote
         }
       },
       pollLifeCycle: {
