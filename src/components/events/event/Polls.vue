@@ -1,6 +1,6 @@
 <template>
   <div class="polls-container mt-2">
-    <app-create-poll :eventRecord="eventRecord" />
+    <app-create-poll @createPollSuccess="createPollSuccess" :eventRecord="eventRecord" />
     <hr class="divider my-5" />
     <app-polls-listing :pollsWithNoResults="pollsWithNoResults" :eventRecord="eventRecord"  />
     <hr class="divider my-5" />
@@ -76,6 +76,11 @@ export default {
   methods: {
     localize (path) {
       return localize(path)
+    },
+    createPollSuccess (newPoll) {
+      this.$emit('createPollSuccess', {
+        poll: newPoll.poll
+      })
     }
   }
 }

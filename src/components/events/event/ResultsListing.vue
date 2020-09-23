@@ -99,8 +99,8 @@
       </div>
     </div>
     <h2>Vergangene Abstimmungen</h2>
-    <ul class="created-polls list-group">
-      <app-result-row v-for="(poll, index) in this.polls" :key="index" :poll="poll"/>
+    <ul class="created-polls list-group" v-if="pollResult">
+      <app-result-row v-for="(pollResult, index) in pollResult" :key="index" :pollResult="pollResult"/>
     </ul>
   </div>
 </template>
@@ -117,82 +117,19 @@ import { localize } from '@/helper/localization-helper'
 import AppResultRow from '@/components/events/event/ResultRow'
 
 export default {
+  props: {
+    eventRecord: {
+      type: Object
+    },
+    pollResult: {
+      type: Array
+    }
+  },
+  created () {
+    console.log(this.pollResult)
+  },
   components: {
     AppResultRow
-  },
-  data () {
-    return {
-      polls: [
-        {
-          title: 'Test',
-          type: 0,
-          modifiedDatetime: '23.08.2020, 16:00',
-          amountVotes: '10',
-          amountPossibleVotes: '12',
-          answers: [
-            {
-              content: 'Ja',
-              amount: '5'
-            },
-            {
-              content: 'Nein',
-              amount: '5'
-            },
-            {
-              content: 'Enthaltung',
-              amount: '0'
-            }
-          ],
-          participants: [
-            {
-              publicName: 'FailX'
-            },
-            {
-              publicName: 'MrX'
-            }
-          ],
-          participantsWithAnswers: [
-            {
-              publicName: 'FailX',
-              content: 'Ja'
-            },
-            {
-              publicName: 'MrX',
-              content: 'Nein'
-            }
-          ]
-        },
-        {
-          title: 'Test',
-          type: 1,
-          modifiedDatetime: '23.08.2020, 16:00',
-          amountVotes: '10',
-          amountPossibleVotes: '12',
-          answers: [
-            {
-              content: 'Ja',
-              amount: '5'
-            },
-            {
-              content: 'Nein',
-              amount: '5'
-            },
-            {
-              content: 'Enthaltung',
-              amount: '0'
-            }
-          ],
-          participants: [
-            {
-              publicName: 'FailX'
-            },
-            {
-              publicName: 'MrX'
-            }
-          ]
-        }
-      ]
-    }
   },
   methods: {
     localize (path) {
