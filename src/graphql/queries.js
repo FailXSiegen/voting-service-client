@@ -71,13 +71,16 @@ export const POLLS_RESULTS = gql`
     pollResult(eventId: $eventId) {
       id
       type
+      createDatetime
       poll {
         title
       }
       pollAnswer {
         answerContent
         pollResultId
-        pollUserId
+        pollUser {
+          publicName
+        }
       }
       pollUser {
         publicName

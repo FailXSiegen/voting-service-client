@@ -81,7 +81,11 @@ export default {
       return localize(path)
     },
     createPollSuccess (newPoll) {
-      this.pollsWithNoResults.push(newPoll.poll)
+      if (!this.pollsWithNoResults) {
+        this.pollsWithNoResults = [newPoll.poll]
+      } else {
+        this.pollsWithNoResults.push(newPoll.poll)
+      }
     }
   }
 }
