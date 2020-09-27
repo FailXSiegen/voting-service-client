@@ -1,5 +1,5 @@
 <template>
-  <div class="container-modal">
+  <div class="container-modal d-print-none">
     <button v-if="trigger === false"
             type="button"
             class="btn btn-primary"
@@ -133,16 +133,18 @@ export default {
     },
     submitPoll () {
       this.$emit('onSubmitPoll', this.pollSubmitAnswer)
-      this.voteCounter++
-      if (this.voteCounter > this.voteAmount) {
-        $('#' + this.identifier).modal('toggle')
+      if (this.voteCounter >= this.voteAmount) {
+        $('#' + this.identifier).modal('hide')
+      }
+      if (this.voteCounter < this.voteAmount) {
+        this.voteCounter++
       }
     },
     setPossibleAnswerId (pollAnswerId) {
       this.pollSubmitAnswer.possibleAnswerId = pollAnswerId
     },
     close () {
-      $('#' + this.identifier).modal('toggle')
+      $('#' + this.identifier).modal('hide')
     }
   }
 }
