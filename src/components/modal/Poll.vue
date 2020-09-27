@@ -101,12 +101,6 @@ export default {
         return 1
       }
     },
-    voteCounter: {
-      type: Number,
-      default () {
-        return 1
-      }
-    },
     trigger: {
       type: Boolean,
       required: true
@@ -121,7 +115,8 @@ export default {
         eventId: this.poll.eventId,
         type: this.poll.type,
         eventUserId: this.$store.getters.getCurrentUserId
-      }
+      },
+      voteCounter: 1
     }
   },
   mounted () {
@@ -138,7 +133,8 @@ export default {
     },
     submitPoll () {
       this.$emit('onSubmitPoll', this.pollSubmitAnswer)
-      if (this.voteCounter === this.voteAmount) {
+      this.voteCounter++
+      if (this.voteCounter > this.voteAmount) {
         $('#' + this.identifier).modal('toggle')
       }
     },
