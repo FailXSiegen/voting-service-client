@@ -67,7 +67,7 @@ export default {
           }
         },
         result ({ data }) {
-          this.eventUser.verified = data.updateEventUserAccessRights.verifiedq
+          this.eventUser.verified = data.updateEventUserAccessRights.verified
           this.eventUser.allowToVote = data.updateEventUserAccessRights.allowToVote
           this.eventUser.voteAmount = data.updateEventUserAccessRights.voteAmount
         }
