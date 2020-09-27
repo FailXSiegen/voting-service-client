@@ -134,6 +134,10 @@ const localizations = {
           abstain: 'Enthaltung',
           abstainHelptext: 'Entwertet oben ausgewählte Felder; Stimme wird komplett als Enthaltung gezählt!',
           buttonStart: 'Abstimmung starten'
+        },
+        active: {
+          title: 'Aktuelle Abstimmung',
+          close: 'Abstimmung beenden erzwingen'
         }
       },
       results: {
