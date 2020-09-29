@@ -152,7 +152,9 @@ const localizations = {
           1: 'geheim',
           SECRET: 'geheim',
           PUBLIC: 'offen'
-        }
+        },
+        showMore: 'Weitere Ergebnisse anzeigen',
+        noMoreResults: 'Keine weitere Ergebnisse verfügbar'
       },
       user: {
         pending: {

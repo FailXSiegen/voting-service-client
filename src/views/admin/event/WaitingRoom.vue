@@ -2,7 +2,7 @@
   <div class="waitingroom-container container-fluid">
     <div class="row">
       <div class="col-12 col-md-3 bg-dark text-white py-3 order-2 order-lg-1">
-        <app-navigation v-if="eventUsers" :eventUsers="eventUsers" :eventRecord="eventRecord" />
+        <app-navigation v-if="eventUsers" :pendingUsersCount="pendingUsersCount"  :verifiedUsersCount="verifiedUsersCount" :eventUsers="eventUsers" :eventRecord="eventRecord" />
       </div>
       <div class="col-12 col-md-9 py-3 order-1 order-lg-2">
         <h1>{{ headline }}</h1>
@@ -70,6 +70,7 @@ export default {
           if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
             return
           }
+
           this.eventUsers.push({ ...data.newEventUser })
         }
       },
@@ -101,6 +102,22 @@ export default {
     }
   },
   computed: {
+    verifiedUsersCount () {
+      if (!this.eventUsers) {
+        return []
+      }
+      return this.eventUsers.filter((eventUser) => {
+        return eventUser.verified
+      }).length
+    },
+    pendingUsersCount () {
+      if (!this.eventUsers) {
+        return []
+      }
+      return this.eventUsers.filter((eventUser) => {
+        return !eventUser.verified
+      }).length
+    },
     pendingUsers () {
       if (!this.eventUsers) {
         return []

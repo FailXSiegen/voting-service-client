@@ -8,6 +8,10 @@
         <h1>{{ headline }}</h1>
         <hr>
         <app-results :pollResult="pollResult" :eventRecord="eventRecord" />
+        <button v-if="showMoreEnabled" class="my-5 mx-auto btn btn-info py-2 d-flex align-items-center d-print-none" @click="showMorePollResults">
+          <i class="mr-3 bi bi-plus-square-fill bi--2xl"></i> {{ localize('view.results.showMore') }}
+        </button>
+        <p v-if="!showMoreEnabled" class="alert alert-light mx-auto my-5">{{ localize('view.results.noMoreResults') }}</p>
       </div>
     </div>
   </div>
@@ -54,7 +58,14 @@ export default {
       query: POLLS_RESULTS,
       variables () {
         return {
-          eventId: this.eventRecord.id
+          eventId: this.eventRecord.id,
+          page: 0,
+          pageSize: this.pageSize
+        }
+      },
+      result ({ data }) {
+        if (data.pollResult.length === 10) {
+          this.showMoreEnabled = true
         }
       }
     },
@@ -75,12 +86,37 @@ export default {
       headline: 'Umfrage-Ergebnisse',
       eventRecord: {},
       eventUsers: [],
-      pollResults: []
+      pollResult: [],
+      page: 0,
+      pageSize: 10,
+      showMoreEnabled: false
     }
   },
   methods: {
     localize (path) {
       return localize(path)
+    },
+    showMorePollResults () {
+      this.page++
+      // Fetch more data and transform the original result
+      this.$apollo.queries.pollResult.fetchMore({
+        // New variables
+        variables: {
+          eventId: this.eventRecord.id,
+          page: this.page,
+          pageSize: this.pageSize
+        },
+        // Transform the previous result with new data
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newResults = fetchMoreResult.pollResult
+          this.showMoreEnabled = true
+          this.pollResult.push(...newResults)
+          if (newResults.length < this.pageSize) {
+            this.showMoreEnabled = false
+          }
+          return true
+        }
+      })
     }
   }
 }

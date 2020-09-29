@@ -44,6 +44,10 @@
                           @onSubmitPoll="submitPoll"
                           ref="pollModal"
           />
+          <button v-if="showMoreEnabled" class="btn btn-info py-2 d-flex align-items-center d-print-none" @click="showMorePollResults">
+            <i class="mr-3 bi bi-plus-square-fill bi--2xl"></i>   {{ localize('view.results.showMore') }}
+          </button>
+          <p v-if="!showMoreEnabled">{{ localize('view.results.noMoreResults') }}</p>
         </div>
       </div>
       <button @click="onLogout" class="logout btn btn-danger py-2 d-flex align-items-center d-print-none">
@@ -87,7 +91,14 @@ export default {
       query: POLLS_RESULTS,
       variables () {
         return {
-          eventId: this.eventRecord.id
+          eventId: this.eventRecord.id,
+          page: 0,
+          pageSize: this.pageSize
+        }
+      },
+      result ({ data }) {
+        if (data.pollResult.length === 10) {
+          this.showMoreEnabled = true
         }
       }
     },
@@ -116,6 +127,8 @@ export default {
           }
           if (data.pollLifeCycle.state === 'closed') {
             this.$apollo.queries.pollResult.refetch()
+            this.showMoreEnabled = true
+            this.page = 1
             if (this.$refs.pollModal) {
               this.$refs.pollModal.close()
             }
@@ -132,7 +145,10 @@ export default {
       pollResultId: null,
       openModal: true,
       pollState: '',
-      pollResult: []
+      pollResult: [],
+      page: 0,
+      pageSize: 10,
+      showMoreEnabled: false
     }
   },
   computed: {
@@ -144,6 +160,28 @@ export default {
     document.title = 'digitalwahl.org'
   },
   methods: {
+    showMorePollResults () {
+      this.page++
+      // Fetch more data and transform the original result
+      this.$apollo.queries.pollResult.fetchMore({
+        // New variables
+        variables: {
+          eventId: this.eventRecord.id,
+          page: this.page,
+          pageSize: this.pageSize
+        },
+        // Transform the previous result with new data
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newResults = fetchMoreResult.pollResult
+          this.showMoreEnabled = true
+          this.pollResult.push(...newResults)
+          if (newResults.length < this.pageSize) {
+            this.showMoreEnabled = false
+          }
+          return true
+        }
+      })
+    },
     async onLogout () {
       await apolloOnLogout(this.$apollo.provider.defaultClient)
       await this.$router.push({ name: 'Login' })
