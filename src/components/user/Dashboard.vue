@@ -16,7 +16,12 @@
         <div class="col-12">
           <h1>{{ eventRecord.title }}</h1>
           <h2>{{ localize('view.user.verified.welcome') }} {{ eventUser.publicName }}</h2>
-          <small>{{ eventUser.username }} - <span class="text-success small" v-if="eventUser.allowToVote">{{ localize('view.event.user.member') }}</span> <span class="text-info small" v-else>{{ localize('view.event.user.visitor') }}</span> <span v-if="eventUser.allowToVote">| Anzahl Stimmen: {{ eventUser.voteAmount }}</span></small>
+          <p>{{ eventUser.username }} - <span class="text-success small" v-if="eventUser.allowToVote">{{ localize('view.event.user.member') }}</span> <span class="text-info small" v-else>{{ localize('view.event.user.visitor') }}</span>
+            <span v-if="eventUser.allowToVote"> | Anzahl Stimmen: {{ eventUser.voteAmount }}</span>
+            <span> | Status: </span>
+            <span class="badge badge-success badge-pill status-indicator" v-if="eventUser.online">online</span>
+            <span class="badge badge-danger badge-pill status-indicator" v-else> | Status: offline</span>
+          </p>
           <hr class="d-print-none">
           <p class="d-print-none" v-if="eventRecord.description">{{ eventRecord.description }}</p>
           <hr class="d-print-none">
@@ -55,7 +60,6 @@
         <i class="mr-3 bi bi-x-square bi--2xl"></i> {{ localize('navigation.logOut') }}
       </button>
     </div>
-
   </section>
 </template>
 
@@ -218,7 +222,6 @@ export default {
       } else {
         delete pollSubmitAnswerInput.answerContents
         delete pollSubmitAnswerInput.possibleAnswerIds
-        pollSubmitAnswerInput.voteCycle = this.voteCounter
         this.$apollo.mutate({
           mutation: CREATE_POLL_SUBMIT_ANSWER,
           variables: {

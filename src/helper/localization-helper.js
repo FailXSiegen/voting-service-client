@@ -136,7 +136,7 @@ const localizations = {
           buttonStart: 'Abstimmung starten',
           maxVote1: 'Sie können eine Position auswählen',
           maxVoteGreater1: 'Achtung: Sie können mehrere Positionenen auswählen: ',
-          minVoteGreater1: 'Achtung: Sie müssen eine Mindestanzahl auswählen: '
+          minVoteGreater0: 'Achtung: Sie müssen eine Mindestanzahl auswählen: '
         },
         active: {
           title: 'Aktuelle Abstimmung',
