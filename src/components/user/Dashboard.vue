@@ -16,7 +16,7 @@
         <div class="col-12">
           <h1>{{ eventRecord.title }}</h1>
           <h2>{{ localize('view.user.verified.welcome') }} {{ eventUser.publicName }}</h2>
-          <small>{{ eventUser.username }}</small>
+          <small>{{ eventUser.username }} - <span class="text-success small" v-if="eventUser.allowToVote">{{ localize('view.event.user.member') }}</span> <span class="text-info small" v-else>{{ localize('view.event.user.visitor') }}</span> <span v-if="eventUser.allowToVote">| Anzahl Stimmen: {{ eventUser.voteAmount }}</span></small>
           <hr class="d-print-none">
           <p class="d-print-none" v-if="eventRecord.description">{{ eventRecord.description }}</p>
           <hr class="d-print-none">
