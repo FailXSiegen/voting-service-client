@@ -45,7 +45,7 @@
                           @onSubmitPoll="submitPoll"
                           ref="pollModal"
           />
-          <button v-if="showMoreEnabled" class="btn btn-info py-2 d-flex align-items-center d-print-none" @click="showMorePollResults">
+          <button v-if="showMoreEnabled" class="btn btn-info my-3 mx-auto py-2 d-flex align-items-center d-print-none" @click="showMorePollResults">
             <i class="mr-3 bi bi-plus-square-fill bi--2xl"></i>   {{ localize('view.results.showMore') }}
           </button>
           <p v-if="!showMoreEnabled">{{ localize('view.results.noMoreResults') }}</p>
@@ -61,7 +61,7 @@
 
 <script>
 import { localize } from '@/helper/localization-helper'
-import { addDangerMessage } from '@/helper/alert-helper'
+import { addDangerMessage, addSuccessMessage } from '@/helper/alert-helper'
 import { POLL_LIFE_CYCLE_SUBSCRIPTION, UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION } from '@/graphql/subscriptions'
 import { EVENT_USER_BY_ID, POLLS_RESULTS } from '@/graphql/queries'
 import AppModalPoll from '@/components/modal/Poll'
@@ -116,6 +116,7 @@ export default {
           this.eventUser.verified = data.updateEventUserAccessRights.verified
           this.eventUser.allowToVote = data.updateEventUserAccessRights.allowToVote
           this.eventUser.voteAmount = data.updateEventUserAccessRights.voteAmount
+          addSuccessMessage('Statusänderung', 'Ihr Status wurde aktualisiert')
         }
       },
       pollLifeCycle: {
@@ -190,21 +191,49 @@ export default {
     },
     submitPoll (pollSubmitAnswerInput) {
       pollSubmitAnswerInput.pollResultId = this.pollResultId
-      delete pollSubmitAnswerInput.answerContentArray
-      this.$apollo.mutate({
-        mutation: CREATE_POLL_SUBMIT_ANSWER,
-        variables: {
-          input: pollSubmitAnswerInput
-        }
-      }).then((response) => {
-        if (this.voteCounter === this.eventUser.voteAmount) {
-          this.pollState = 'voted'
-          this.voteCounter = 1
-        }
-      }).catch((error) => {
-        addDangerMessage('Das hat nicht funktioniert. Für weitere Informationen lohnt ein Blick in die Console.')
-        console.error(error)
-      })
+      if (pollSubmitAnswerInput.answerContents.length) {
+        const parentObject = this
+        pollSubmitAnswerInput.answerContents.forEach(function (pollAnswer, index) {
+          const answer = {}
+          Object.assign(answer, pollSubmitAnswerInput)
+          answer.answerContent = pollAnswer
+          answer.possibleAnswerId = pollSubmitAnswerInput.possibleAnswerIds[index].id
+          delete answer.answerContents
+          delete answer.possibleAnswerIds
+          parentObject.$apollo.mutate({
+            mutation: CREATE_POLL_SUBMIT_ANSWER,
+            variables: {
+              input: answer
+            }
+          }).then((response) => {
+            if (parentObject.voteCounter === parentObject.eventUser.voteAmount && index === pollSubmitAnswerInput.answerContents.length - 1) {
+              parentObject.pollState = 'voted'
+              parentObject.voteCounter = 1
+            }
+          }).catch((error) => {
+            addDangerMessage('Fehler', 'Die Stimmenabgabe war nicht erfolgreich')
+            console.error(error)
+          })
+        })
+      } else {
+        delete pollSubmitAnswerInput.answerContents
+        delete pollSubmitAnswerInput.possibleAnswerIds
+        pollSubmitAnswerInput.voteCycle = this.voteCounter
+        this.$apollo.mutate({
+          mutation: CREATE_POLL_SUBMIT_ANSWER,
+          variables: {
+            input: pollSubmitAnswerInput
+          }
+        }).then((response) => {
+          if (this.voteCounter === this.eventUser.voteAmount) {
+            this.pollState = 'voted'
+            this.voteCounter = 1
+          }
+        }).catch((error) => {
+          addDangerMessage('Fehler', 'Die Stimmenabgabe war nicht erfolgreich')
+          console.error(error)
+        })
+      }
     },
     localize (path) {
       return localize(path, this.$store.state.language)

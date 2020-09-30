@@ -49,16 +49,28 @@ export default {
     eventUsers: {
       type: Array,
       required: true
-    },
-    verifiedUsersCount: {
-      type: Number
-    },
-    pendingUsersCount: {
-      type: Number
     }
   },
   data () {
     return {}
+  },
+  computed: {
+    verifiedUsersCount () {
+      if (!this.eventUsers) {
+        return []
+      }
+      return this.eventUsers.filter((eventUser) => {
+        return eventUser.verified
+      }).length
+    },
+    pendingUsersCount () {
+      if (!this.eventUsers) {
+        return []
+      }
+      return this.eventUsers.filter((eventUser) => {
+        return !eventUser.verified
+      }).length
+    }
   },
   methods: {
     localize (path) {

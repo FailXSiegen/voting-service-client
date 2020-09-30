@@ -25,11 +25,14 @@
                   :id="identifier + 'Title'">{{ poll.title }}<br /><small>(Stimme {{ voteCounter }} von {{ voteAmount }})</small></h5>
             </div>
             <div class="modal-body">
+              <p v-if="poll.maxVotes === 1">{{ localize('view.polls.modal.maxVote1') }}</p>
+              <p v-if="poll.maxVotes > 1">{{ localize('view.polls.modal.maxVoteGreater1') }}</p>
+              <p v-if="poll.minVotes > 0">{{ localize('view.polls.modal.minVoteGreater0') }}</p>
               <fieldset class="input-radios" v-if="poll.maxVotes === 1">
                 <div v-for="(pollAnswer, index) in poll.possibleAnswers" :key="index" class="form-check">
                   <input class="form-check-input"
                          type="radio"
-                         v-model="pollSubmitAnswer.answerContent"
+                         v-model="pollSubmitAnswerInput.answerContent"
                          @click="setPossibleAnswerId(pollAnswer.id)"
                          :value="pollAnswer.content"
                          :name="'poll' + poll.id + 'Answers'"
@@ -44,8 +47,8 @@
                 <div v-for="(pollAnswer, index) in poll.possibleAnswers" :key="index" class="form-check">
                   <input class="form-check-input"
                          type="checkbox"
-                         v-model="pollSubmitAnswer.answerContentArray"
-                         @click="setPossibleAnswerId(pollAnswer.id)"
+                         v-model="pollSubmitAnswerInput.answerContents"
+                         @click="setPossibleAnswerIds(pollAnswer.id)"
                          :value="pollAnswer.content"
                          :name="'poll' + poll.id + 'Answers'"
                          :id="'poll' + poll.id + 'Answer' + pollAnswer.id"
@@ -58,7 +61,7 @@
               <fieldset class="input-checkbox" v-if="poll.allowAbstain > 1">
                 <input class="form-check-input"
                        type="checkbox"
-                       v-model="pollSubmitAnswer.answerContentArray"
+                       v-model="pollSubmitAnswerInput.answerContents"
                        :name="'poll' + poll.id + 'AnswersAbstain'"
                        :id="'poll' + poll.id + 'AnswerAnswersAbstain'"
                        >
@@ -108,13 +111,14 @@ export default {
   },
   data () {
     return {
-      pollSubmitAnswer: {
+      pollSubmitAnswerInput: {
         possibleAnswerId: 0,
+        possibleAnswerIds: [],
         answerContent: '',
-        answerContentArray: [],
-        eventId: this.poll.eventId,
+        answerContents: [],
         type: this.poll.type,
-        eventUserId: this.$store.getters.getCurrentUserId
+        eventUserId: this.$store.getters.getCurrentUserId,
+        voteCycle: 1
       },
       voteCounter: 1
     }
@@ -132,16 +136,24 @@ export default {
       $('#' + this.identifier).modal('show')
     },
     submitPoll () {
-      this.$emit('onSubmitPoll', this.pollSubmitAnswer)
+      this.$emit('onSubmitPoll', this.pollSubmitAnswerInput)
       if (this.voteCounter >= this.voteAmount) {
         $('#' + this.identifier).modal('hide')
       }
       if (this.voteCounter < this.voteAmount) {
         this.voteCounter++
+        this.pollSubmitAnswerInput.voteCycle++
       }
     },
     setPossibleAnswerId (pollAnswerId) {
-      this.pollSubmitAnswer.possibleAnswerId = pollAnswerId
+      this.pollSubmitAnswerInput.possibleAnswerId = pollAnswerId
+    },
+    setPossibleAnswerIds (pollAnswerId, pollAnswerContent) {
+      if (this.pollSubmitAnswerInput.possibleAnswerIds.filter((possibleAnswerId) => { return possibleAnswerId.id === pollAnswerId }).length > 0) {
+        this.pollSubmitAnswerInput.possibleAnswerIds.splice(this.pollSubmitAnswerInput.possibleAnswerIds.findIndex((possibleAnswerId) => possibleAnswerId.id === pollAnswerId), 1)
+      } else {
+        this.pollSubmitAnswerInput.possibleAnswerIds.push({ id: pollAnswerId, answerContent: pollAnswerContent })
+      }
     },
     close () {
       $('#' + this.identifier).modal('hide')
