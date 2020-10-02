@@ -16,7 +16,7 @@
         <div class="col-12">
           <h1>{{ eventRecord.title }}</h1>
           <h2>{{ localize('view.user.verified.welcome') }} {{ eventUser.publicName }}</h2>
-          <p>{{ eventUser.username }} - <span class="text-success small" v-if="eventUser.allowToVote">{{ localize('view.event.user.member') }}</span> <span class="text-info small" v-else>{{ localize('view.event.user.visitor') }}</span>
+          <p id="userInformation">{{ eventUser.username }} - <span class="text-success small" v-if="eventUser.allowToVote">{{ localize('view.event.user.member') }}</span> <span class="text-info small" v-else>{{ localize('view.event.user.visitor') }}</span>
             <span v-if="eventUser.allowToVote"> | Anzahl Stimmen: {{ eventUser.voteAmount }}</span>
             <span> | Status: </span>
             <span class="badge badge-success badge-pill status-indicator" v-if="eventUser.online">online</span>
@@ -121,7 +121,7 @@ export default {
           this.eventUser.verified = data.updateEventUserAccessRights.verified
           this.eventUser.allowToVote = data.updateEventUserAccessRights.allowToVote
           this.eventUser.voteAmount = data.updateEventUserAccessRights.voteAmount
-          addSuccessMessage('Statusänderung', 'Ihr Status wurde aktualisiert')
+          addSuccessMessage('Statusänderung', 'Ihr Status wurde aktualisiert <a href="">TEST</a>')
         }
       },
       pollLifeCycle: {
