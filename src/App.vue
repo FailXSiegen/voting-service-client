@@ -50,6 +50,7 @@ export default {
   @media all and (min-width: 991px) {
     .toast-container {
       top: 10%;
+      bottom: auto;
     }
   }
   .close {
