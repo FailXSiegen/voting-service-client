@@ -122,7 +122,7 @@ export default {
           this.eventUser.verified = data.updateEventUserAccessRights.verified
           this.eventUser.allowToVote = data.updateEventUserAccessRights.allowToVote
           this.eventUser.voteAmount = data.updateEventUserAccessRights.voteAmount
-          addSuccessMessage('Statusänderung', 'Ihr Status wurde aktualisiert <a id="anchorLink" href="#">TEST</a>')
+          addSuccessMessage('Statusänderung', '<p>Ihr Status wurde aktualisiert</p><a class="btn btn-primary btn-block my-3" id="anchorLink" href="#">Änderung anschauen</a>')
         }
       },
       pollLifeCycle: {
