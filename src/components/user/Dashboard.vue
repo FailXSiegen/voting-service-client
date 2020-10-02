@@ -193,7 +193,7 @@ export default {
     },
     async onLogout () {
       await apolloOnLogout(this.$apollo.provider.defaultClient)
-      await this.$router.push({ name: 'Login' })
+      this.$router.push({ name: 'Login' }).catch(() => {})
     },
     async submitPoll (pollSubmitAnswerInput) {
       pollSubmitAnswerInput.pollResultId = this.pollResultId
