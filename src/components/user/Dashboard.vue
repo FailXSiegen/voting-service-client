@@ -243,10 +243,10 @@ export default {
           if (newResults.length < this.pageSize) {
             this.showMoreEnabled = false
           }
+          this.page++
           return true
         }
       })
-      this.page++
     },
     async onLogout (route = null) {
       await apolloOnLogout(this.$apollo.provider.defaultClient)
