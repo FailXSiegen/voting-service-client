@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AppLogin from '@/frame/views/Login'
+import AppRegister from '@/frame/views/Register'
 import AppDashboard from '@/organizer/views/Dashboard'
 import AppEvents from '@/organizer/views/Events'
 import AppProfile from '@/organizer/views/Profile'
@@ -22,6 +23,12 @@ const routes = [
     path: '/',
     name: 'Login',
     component: AppLogin,
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/register',
+    name: 'Register Organizer',
+    component: AppRegister,
     meta: { requiresAuth: false }
   },
   {
