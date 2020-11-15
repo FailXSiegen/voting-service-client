@@ -56,7 +56,11 @@ const localizations = {
           setTo: 'Setzen auf:',
           block: 'Benutzer blockieren',
           member: 'Teilnehmer',
-          visitor: 'Besucher'
+          visitor: 'Besucher',
+          online: 'Online',
+          offline: 'Offline',
+          all: 'Gesamt',
+          allVoteAmount: 'Gesamtstimmen'
         },
         create: {
           createNew: 'Neues Event erstellen',
@@ -87,6 +91,7 @@ const localizations = {
           state: 'Status',
           stateActive: 'laufend',
           stateLocked: 'verschlossen',
+          voteAmount: 'Stimmen',
           actions: {
             label: 'Aktionen',
             edit: 'Bearbeiten',
