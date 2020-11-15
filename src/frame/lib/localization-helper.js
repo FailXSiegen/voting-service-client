@@ -150,7 +150,7 @@ const localizations = {
       },
       results: {
         givenVotes: 'Anzahl abgegebener Stimmen:',
-        voters: 'Stimmberechtigte:',
+        voters: 'Maximale Stimmenanzahl:',
         mainResult: 'Gesamtergebnis',
         showMemberList: 'Teilnehmerliste Anzeigen',
         detailResult: 'Detailergebnis',
