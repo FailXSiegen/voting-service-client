@@ -13,7 +13,7 @@
             <label class="register__label" for="username">
               {{ localize('view.register.label.username') }}
             </label>
-            <input v-model="registerUser.userName"
+            <input v-model="submitData.userName"
                    class="register__form-control form-control"
                    id="username"
                    type="text"
@@ -24,7 +24,7 @@
             <label class="register__label" for="email">
               {{ localize('view.register.label.email') }}
             </label>
-            <input v-model="registerUser.email"
+            <input v-model="submitData.email"
                    type="email"
                    name="email"
                    id="email"
@@ -35,7 +35,7 @@
             <label class="register__label" for="password">
               {{ localize('view.register.label.password') }}
             </label>
-            <input v-model="registerUser.password"
+            <input v-model="submitData.password"
                    id="password"
                    class="register__form-control form-control"
                    type="password"
@@ -46,7 +46,7 @@
             <label class="register__label" for="repeat-password">
               {{ localize('view.register.label.repeatPassword') }}
             </label>
-            <input v-model="registerUser.repeatPassword"
+            <input v-model="submitData.repeatPassword"
                    id="repeat-password"
                    class="register__form-control form-control"
                    type="password"
@@ -55,9 +55,9 @@
           </div>
           <div class="register__form-group form-group">
             <label class="register__label" for="public-name">
-              {{ localize('view.register.label.realName') }}
+              {{ localize('view.register.label.publicName') }}
             </label>
-            <input v-model="registerUser.publicName"
+            <input v-model="submitData.publicName"
                    class="register__form-control form-control"
                    id="public-name"
                    type="text"
