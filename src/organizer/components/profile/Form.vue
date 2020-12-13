@@ -38,7 +38,7 @@ export default {
       return localize(path)
     },
     submitUpdateOrganizer () {
-      //@Todo check if password is correct and if new password equals new password repeat
+      //  @Todo check if password is correct and if new password equals new password repeat
       this.$emit('onUpdateOrganizer', {
         organizer: this.organizer
       })
