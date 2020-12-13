@@ -54,7 +54,7 @@ export default {
   },
   data () {
     return {
-      headline: 'ICH BIN NOCH KOMPLETT STATISCH!!',
+      headline: 'Profil bearbeiten',
       organizer: {}
     }
   }
