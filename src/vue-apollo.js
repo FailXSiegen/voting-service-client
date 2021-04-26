@@ -65,7 +65,7 @@ const errorLink = onError(error => {
   if (typeof error !== 'undefined') {
     if (error.graphQLErrors) {
       handleGraphQlErrors(error)
-      onResetLocalStorage()
+      // onResetLocalStorage()
     }
     logErrorMessages(error)
   }
