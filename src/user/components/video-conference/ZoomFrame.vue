@@ -1,10 +1,5 @@
 <template>
-  <div class="iframe-container">
-    <meta charset="utf-8">
-    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.1/css/bootstrap.css">
-    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.1/css/react-select.css">
-    <meta name="format-detection" content="telephone=no">
-  </div>
+  <div class="iframe-container"></div>
 </template>
 
 <script>
@@ -21,25 +16,27 @@ export default {
   props: {
     nickname: String,
     meetingId: String,
-    password: String
+    password: String,
+    returnUrl: String
   },
   mounted () {
-    // document.getElementById('zoom-hook').appendChild(document.getElementById('zmmtg-root'))
-
     document.getElementById('zmmtg-root').style.display = 'block'
-    // document.getElementById('zmmtg-root').style.width = '100%'
-    // document.getElementById('zmmtg-root').style.height = '600'
-    // document.getElementById('zmmtg-root').style.position = 'relative'
 
     // eslint-disable-next-line
-    console.log("checkSystemRequirements");
+    console.log('checkSystemRequirements')
     // eslint-disable-next-line
-    console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
+    console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()))
 
     // CDN version default
-    ZoomMtg.setZoomJSLib('https://dmogdx0jrul3u.cloudfront.net/1.9.6/lib', '/av')
+    ZoomMtg.setZoomJSLib(
+      'https://dmogdx0jrul3u.cloudfront.net/1.9.6/lib',
+      '/av'
+    )
     ZoomMtg.preLoadWasm()
     ZoomMtg.prepareJssdk()
+    // loads language files, also passes any error messages to the ui
+    ZoomMtg.i18n.load('de-DE')
+    ZoomMtg.i18n.reload('de-DE')
 
     var API_KEY = 'O7OouRYfS--ru2f-HFyzgQ'
     var API_SECRET = 'bT7DdTd2cuw89ecX0OqNVenJ9Jb3soI6Ovsz'
@@ -52,9 +49,9 @@ export default {
       meetingNumber: this.meetingId,
       userName: this.nickname,
       passWord: this.password,
-      leaveUrl: 'http://localhost:8081/',
+      leaveUrl: this.returnUrl,
       role: 0,
-      lang: 'en-US',
+      lang: 'de-DE',
       china: false,
       userEmail: ''
     }
@@ -82,7 +79,7 @@ export default {
     },
     join (me, res) {
       // eslint-disable-next-line
-      console.log("success signature: " + res.result);
+      console.log('success signature: ' + res.result)
 
       me.meetConfig.signature = res.result
 
@@ -94,7 +91,7 @@ export default {
           ZoomMtg.i18n.load(me.meetConfig.lang)
           ZoomMtg.i18n.reload(me.meetConfig.lang)
           // eslint-disable-next-line
-          console.log(me.meetConfig);
+          console.log(me.meetConfig)
           ZoomMtg.join({
             meetingNumber: me.meetConfig.meetingNumber,
             userName: me.meetConfig.userName,
@@ -104,32 +101,32 @@ export default {
             passWord: me.meetConfig.passWord,
             success: function (res) {
               // eslint-disable-next-line
-              console.log(res);
+              console.log(res)
               // eslint-disable-next-line
-              console.log("join meeting success");
+              console.log('join meeting success')
               // eslint-disable-next-line
-              console.log("get attendeelist");
+              console.log('get attendeelist')
               ZoomMtg.getAttendeeslist({})
               ZoomMtg.getCurrentUser({
                 success: function (res) {
                   // eslint-disable-next-line
-                  console.log("success getCurrentUser", res.result.currentUser);
+                  console.log('success getCurrentUser', res.result.currentUser)
                 }
               })
             },
             error: function (res) {
               // eslint-disable-next-line
-              console.log("failed to connect a:");
+              console.log('failed to connect a:')
               // eslint-disable-next-line
-              console.log(res);
+              console.log(res)
             }
           })
         },
         error: function (res) {
           // eslint-disable-next-line
-          console.log("failed to connect b:");
+          console.log('failed to connect b:')
           // eslint-disable-next-line
-          console.log(res);
+          console.log(res)
         }
       })
     }

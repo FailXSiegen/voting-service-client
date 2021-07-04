@@ -17,14 +17,20 @@
         </button>
       </span>
     </div>
-    <div v-if="eventUser"
-      class="container position-relative bg-white min-vh-100 pt-5 pt-md-0">
-      <div v-if="!eventUser.verified"
-        class="row min-vh-100 justify-content-center align-items-center d-print-none">
+    <div
+      v-if="eventUser"
+      class="container position-relative bg-white min-vh-100 pt-5 pt-md-0"
+    >
+      <div
+        v-if="!eventUser.verified"
+        class="row min-vh-100 justify-content-center align-items-center d-print-none"
+      >
         <div class="col-12 text-center">
-          <div class="spinner-border mb-5"
+          <div
+            class="spinner-border mb-5"
             style="width: 3rem; height: 3rem;"
-            role="status">
+            role="status"
+          >
             <span class="sr-only">Loading...</span>
           </div>
           <h1>{{ localize('view.user.pending.tankYou') }}</h1>
@@ -37,7 +43,10 @@
           </p>
         </div>
       </div>
-      <div v-else class="row min-vh-100 justify-content-center align-items-center pt-5 pt-md-0">
+      <div
+        v-else
+        class="row min-vh-100 justify-content-center align-items-center pt-5 pt-md-0"
+      >
         <div class="col-12">
           <h1>{{ eventRecord.title }}</h1>
           <h2>
@@ -47,39 +56,63 @@
           <p id="userInformation">
             {{ eventUser.username }} -
             <span class="text-success small" v-if="eventUser.allowToVote">
-              {{ localize('view.event.user.member') }}</span>
+              {{ localize('view.event.user.member') }}</span
+            >
             <span class="text-info small" v-else>{{
-                localize('view.event.user.visitor')
-              }}</span>
+              localize('view.event.user.visitor')
+            }}</span>
             <span v-if="eventUser.allowToVote">
-              | Anzahl Stimmen: {{ eventUser.voteAmount }}</span>
+              | Anzahl Stimmen: {{ eventUser.voteAmount }}</span
+            >
             <span> | Status: </span>
             <span
               class="badge badge-success badge-pill status-indicator"
-              v-if="eventUser.online">online</span>
-            <span class="badge badge-danger badge-pill status-indicator" v-else>offline</span>
+              v-if="eventUser.online"
+              >online</span
+            >
+            <span class="badge badge-danger badge-pill status-indicator" v-else
+              >offline</span
+            >
           </p>
-          <hr class="d-print-none"/>
+          <hr class="d-print-none" />
           <p class="d-print-none" v-if="eventRecord.description">
             {{ eventRecord.description }}
           </p>
-          <hr>
+          <hr v-if="!openMeeting" />
 
-          <button @click.prevent="onJoinMeeting" class="btn btn-primary">Join Meeting</button>
+          <button
+            @click.prevent="onJoinMeeting"
+            v-if="!openMeeting"
+            class="btn btn-primary"
+          >
+            An Videkonferenz teilnehmen
+          </button>
 
           <div class="meeting" v-if="openMeeting">
             <div class="container-zoom">
               <div id="zoom-hook"></div>
-              <ZoomFrame :nickname="nickname" :meetingId="meetingId" :password="password"/>
+              <ZoomFrame
+                :nickname="eventUser.publicName"
+                :meetingId="meetingId"
+                :password="password"
+                :returnUrl="eventRecord.slug"
+              />
+              <div
+                class="btn btn-primary position-fixed sticky-top mt-2"
+                @click.prevent="onToggleVideoConference"
+              >
+                Ansicht wechseln
+              </div>
             </div>
           </div>
 
-          <hr>
-          <hr class="d-print-none"/>
+          <hr v-if="!openMeeting" />
+          <hr class="d-print-none" />
           <div class="container-poll-status d-print-none">
             <div
               class="container-poll-voted text-center alert alert-success"
-              v-if="this.pollState === 'voted'">
+              v-if="this.pollState === 'voted'"
+            >
               <i class="bi-check bi--4xl my-3"></i>
               <h2 v-html="localize('view.user.verified.voted')">
                 {{ localize('view.user.verified.voted') }}
@@ -88,7 +121,8 @@
             <div
               class="container-active-poll text-center alert alert-primary"
               role="alert"
-              v-if="existActivePoll">
+              v-if="existActivePoll"
+            >
               <i class="bi-arrow-repeat bi--spin bi--4xl my-3"></i>
               <p v-html="localize('view.user.verified.activePoll')">
                 {{ localize('view.user.verified.activePoll') }}
@@ -97,15 +131,16 @@
             <div
               class="container-no-active-poll text-center alert alert-warning d-flex justify-content-center align-items-center"
               role="alert"
-              v-else>
+              v-else
+            >
               <p class="mb-0">
                 {{ localize('view.user.verified.noActivePoll') }}
               </p>
             </div>
           </div>
           <div class="container-poll-result mt-3" v-if="pollResult">
-            <hr class="d-print-none"/>
-            <app-results :pollResult="pollResult" :eventRecord="eventRecord"/>
+            <hr class="d-print-none" />
+            <app-results :pollResult="pollResult" :eventRecord="eventRecord" />
           </div>
           <app-modal-poll
             v-if="pollState === 'new' && eventUser.allowToVote"
@@ -120,7 +155,8 @@
           <button
             v-if="showMoreEnabled && pollResult"
             class="btn btn-info my-3 mx-auto py-2 d-flex align-items-center d-print-none"
-            @click="showMorePollResults">
+            @click="showMorePollResults"
+          >
             <i class="mr-3 bi bi-plus-square-fill bi--2xl"></i>
             {{ localize('view.results.showMore') }}
           </button>
@@ -131,13 +167,15 @@
       </div>
       <button
         @click="onLogout"
-        class="logout btn btn-danger py-2 d-flex align-items-center d-print-none">
+        class="logout btn btn-danger py-2 d-flex align-items-center d-print-none"
+      >
         <i class="mr-3 bi bi-x-square bi--2xl"></i>
         {{ localize('navigation.logOut') }}
       </button>
       <button
         @click="reloadPage"
-        class="reload btn btn-info py-2 d-flex align-items-center d-print-none">
+        class="reload btn btn-info py-2 d-flex align-items-center d-print-none"
+      >
         <i class="mr-3 bi bi-arrow-repeat bi--1xl"></i>
         {{ localize('navigation.reload') }}
       </button>
@@ -345,7 +383,8 @@ export default {
       nickname: 'hans',
       meetingId: '83308550412',
       password: '350291',
-      openMeeting: false
+      openMeeting: false,
+      dashboardForeground: false
     }
   },
   computed: {
@@ -458,6 +497,14 @@ export default {
     },
     onJoinMeeting () {
       this.openMeeting = true
+    },
+    onToggleVideoConference () {
+      if (!this.dashboardForeground) {
+        $('#zmmtg-root').hide()
+      } else {
+        $('#zmmtg-root').show()
+      }
+      this.dashboardForeground = !this.dashboardForeground
     },
     localize (path) {
       return localize(path, this.$store.state.language)
