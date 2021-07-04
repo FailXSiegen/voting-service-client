@@ -36,7 +36,7 @@ import AppNavigation from '@/organizer/components/Navigation'
 import AppZoomRow from '@/organizer/components/video-conference/zoom/Row'
 import AppListingHeader from '@/organizer/components/video-conference/ListingHeader'
 import { ORGANIZER } from '@/organizer/api/graphql/gql/queries'
-import { MeetingType } from '@/enum'
+import { VideoConferenceType } from '@/enum'
 
 export default {
   components: {
@@ -66,14 +66,14 @@ export default {
       headline: 'Videokonferenzsysteme einrichten',
       organizer: {},
       saveSuccess: false,
-      selectedNewMeetingType: MeetingType.zoom
+      selectedNewMeetingType: VideoConferenceType.ZOOM
     }
   },
   computed: {
     meetingTypes () {
       return [
         {
-          id: MeetingType.zoom,
+          id: VideoConferenceType.ZOOM,
           title: 'Zoom Meeting'
         }
       ]
@@ -82,7 +82,7 @@ export default {
   methods: {
     onNew () {
       switch (this.selectedNewMeetingType) {
-        case MeetingType.zoom:
+        case VideoConferenceType.ZOOM:
           this.$router.push({ name: 'NewZoomMeeting' })
           break
         default:

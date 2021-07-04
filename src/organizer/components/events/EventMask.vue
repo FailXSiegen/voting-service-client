@@ -79,6 +79,13 @@
         Veranstaltung aktiv
       </label>
     </div>
+    <div v-if="organizer" class="form-group">
+      <label>Videokonferenz-System-Auswahl</label>
+      <select v-model="selectedMeetingId" class="form-control" @change="onChangeMeeting">
+        <option value="0" selected="selected">---</option>
+        <option v-for="(meeting, index) in meetings" :key="index" :value="meeting.id">{{ meeting.title }}</option>
+      </select>
+    </div>
     <hr />
     <h3>Mehrfachstimmenabgabe</h3>
     <p class="text-muted">
@@ -133,6 +140,8 @@ import { localize } from '@/frame/lib/localization-helper'
 import { convertUnixTimeStampForDatetimeLocaleInput } from '@/frame/lib/time-stamp'
 import datePicker from 'vue-bootstrap-datetimepicker'
 import moment from 'moment'
+import { ORGANIZER } from '@/organizer/api/graphql/gql/queries'
+import { VideoConferenceType } from '@/enum'
 
 export default {
   components: {
@@ -142,6 +151,16 @@ export default {
     eventRecord: {
       type: Object,
       required: true
+    }
+  },
+  apollo: {
+    organizer: {
+      query: ORGANIZER,
+      variables () {
+        return {
+          organizerId: this.$store.getters.getCurrentUserId
+        }
+      }
     }
   },
   data () {
@@ -160,14 +179,21 @@ export default {
           clear: 'bi-trash',
           close: 'bi-x-circle'
         }
-      }
+      },
+      organizer: null,
+      selectedMeetingId: 0,
+      selectedMeetingType: null
     }
   },
-  async created () {
+  created () {
     if (this.eventRecord.scheduledDatetime) {
       this.eventRecord.scheduledDatetime = convertUnixTimeStampForDatetimeLocaleInput(
         this.eventRecord.scheduledDatetime
       )
+    }
+
+    if (this.eventRecord.meetingId && this.eventRecord.meetingId > 0) {
+      this.selectedMeetingId = this.eventRecord.meetingId
     }
   },
   methods: {
@@ -203,8 +229,33 @@ export default {
         eventRecord: this.eventRecord
       })
     },
+    onChangeMeeting () {
+      const selectedMeeting = this.meetings.filter(meeting => meeting.id === this.selectedMeetingId)[0] || null
+      if (selectedMeeting === null) {
+        this.selectedMeetingType = null
+        this.eventRecord.meetingId = null
+        this.eventRecord.meetingType = null
+        return
+      }
+      this.selectedMeetingType = selectedMeeting.type
+      this.eventRecord.meetingId = this.selectedMeetingId
+      this.eventRecord.meetingType = VideoConferenceType.findByValue(this.selectedMeetingType)
+    },
     localize (path) {
       return localize(path)
+    }
+  },
+  computed: {
+    meetings () {
+      const meetings = []
+      for (const meeting of this.organizer.zoomMeetings) {
+        meetings.push({
+          id: meeting.id,
+          title: '[Zoom] ' + meeting.title,
+          type: VideoConferenceType.ZOOM
+        })
+      }
+      return meetings
     }
   }
 }

@@ -7,6 +7,7 @@
         <div class="col-12 py-3 order-1 order-md-2">
           <h1>{{ headline }}</h1>
           <app-event-mask
+            v-if="eventRecord.id"
             :eventRecord="eventRecord"
             @mutateEvent="updateEvent"
           />
@@ -59,6 +60,7 @@ export default {
   },
   methods: {
     updateEvent () {
+      // @todo move converting to dedicated module!
       const updateEvent = JSON.parse(JSON.stringify(this.eventRecord))
       delete updateEvent.createDatetime
       delete updateEvent.__typename
@@ -72,6 +74,17 @@ export default {
         updateEvent.lobbyOpen === true || updateEvent.lobbyOpen === 1
       updateEvent.scheduledDatetime = this.convertScheduledDatetime()
       updateEvent.multivoteType = parseInt(updateEvent.multivoteType)
+
+      // Handle meeting data.
+      if (updateEvent.meetingId) {
+        updateEvent.meeting = {
+          meetingId: updateEvent.meetingId,
+          meetingType: updateEvent.meetingType
+        }
+      }
+      delete updateEvent.meetingId
+      delete updateEvent.meetingType
+
       this.$apollo
         .mutate({
           mutation: UPDATE_EVENT_MUTATION,

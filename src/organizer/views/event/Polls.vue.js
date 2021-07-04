@@ -79,7 +79,6 @@ export default {
         }
       },
       result ({ data }) {
-        console.log(data)
         if (data.activePollEventUser.pollUserVoted) {
           data.activePollEventUser.pollUserVoted.forEach(pollUserVoted => {
             data.activePollEventUser.pollUser.forEach((pollUser, index) => {
@@ -300,7 +299,7 @@ export default {
           if (response.data.stopPoll) {
             location.reload()
           } else {
-            console.log('Could not close poll')
+            console.warn('Could not close poll')
           }
         })
         .catch(error => {
