@@ -25,7 +25,8 @@
     "vue-chartjs": "^3.5.1",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "@zoomus/websdk": "1.9.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
