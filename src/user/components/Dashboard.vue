@@ -152,6 +152,15 @@
             @onSubmitPoll="submitPoll"
             ref="pollModal"
           />
+          <app-modal-poll-result
+            v-if="lastPollResult && pollState === 'closed'"
+            :identifier="'pollResult' + lastPollResult.id"
+            :pollResult="lastPollResult"
+            :eventRecord="eventRecord"
+            :trigger="openModalResult"
+            ref="pollResultModal"
+            @onCloseResultModal="closeResultModal"
+          />
           <button
             v-if="showMoreEnabled && pollResult"
             class="btn btn-info my-3 mx-auto py-2 d-flex align-items-center d-print-none"
@@ -200,6 +209,7 @@ import {
   EVENT_USER_BY_ID
 } from '@/user/api/graphql/gql/queries'
 import AppModalPoll from '@/user/components/modal/Poll'
+import AppModalPollResult from '@/user/components/modal/PollResult'
 import AppResults from '@/organizer/components/events/detail/ResultsListing'
 import { onLogout as apolloOnLogout, wsLink } from '@/vue-apollo'
 import { CREATE_POLL_SUBMIT_ANSWER } from '@/user/api/graphql/gql/mutations'
@@ -209,6 +219,7 @@ import ZoomFrame from '@/user/components/video-conference/ZoomFrame.vue'
 export default {
   components: {
     AppModalPoll,
+    AppModalPollResult,
     AppResults,
     ZoomFrame
   },
@@ -273,6 +284,9 @@ export default {
         }
       },
       result ({ data }) {
+        if (data.pollResult.length > 0) {
+          this.lastPollResult = data.pollResult[0]
+        }
         if (data.pollResult && data.pollResult.length === 1) {
           this.showMoreEnabled = true
         }
@@ -313,12 +327,19 @@ export default {
             ) {
               this.reloadPage()
             }
+
+            if (this.$refs.pollModal) {
+              this.$refs.pollModal.close()
+            }
             this.poll = data.pollLifeCycle.poll
           }
           if (data.pollLifeCycle.pollResultId) {
             this.pollResultId = data.pollLifeCycle.pollResultId
           }
           if (data.pollLifeCycle.state === 'closed') {
+            if (this.openMeeting) {
+              this.openModalResult = true
+            }
             this.$apollo.queries.pollResult.refetch()
             this.showMoreEnabled = true
             this.page = 0
@@ -372,9 +393,11 @@ export default {
       poll: null,
       pollResultId: null,
       openModal: true,
-      pollState: '',
+      openModalResult: false,
+      pollState: 'closed',
       activePollEventUser: {},
       pollResult: [],
+      lastPollResult: {},
       page: 0,
       pageSize: 10,
       showMoreEnabled: false,
@@ -393,6 +416,9 @@ export default {
     }
   },
   methods: {
+    closeResultModal () {
+      this.openModalResult = false
+    },
     showMorePollResults () {
       // Fetch more data and transform the original result
       this.$apollo.queries.pollResult.fetchMore({
