@@ -56,8 +56,6 @@ export default {
     AppResultItem
   },
   mounted () {
-    console.log(this.identifier)
-    console.log(this.trigger)
     if (this.trigger === true) {
       this.onTriggerModal()
     }
@@ -84,7 +82,6 @@ export default {
       return localize(path, this.$store.state.language)
     },
     onTriggerModal () {
-      console.log(this.identifier)
       if ($('#zmmtg-root .root-inner').length > 0) {
         $('#' + this.identifier).removeClass('fade')
       }
