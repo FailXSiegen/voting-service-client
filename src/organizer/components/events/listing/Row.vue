@@ -89,7 +89,7 @@
         <i class="bi-eye-fill bi--2xl"></i>
       </router-link>
       <button
-        @click="onDelete(event.id, event.organizer.id)"
+        @click="onDelete(event.id)"
         class="btn btn-danger mx-1 my-2"
         :title="localize('view.event.listing.actions.delete')"
         :disabled="event.active"
@@ -156,7 +156,11 @@ export default {
           'Veranstaltung wird komplett mit allen Informationen unwiederherstellbar gelöscht.\n\nSind Sie sich sicher?'
         )
       ) {
-        this.$emit('onDeleteEvent', eventId, organizerId)
+        if (this.showOrganizer && organizerId) {
+          this.$emit('onDeleteEvent', eventId, organizerId)
+        } else {
+          this.$emit('onDeleteEvent', eventId, this.$store.state.currentUser.id)
+        }
       }
     },
     onToggleActivate (eventId, status) {
