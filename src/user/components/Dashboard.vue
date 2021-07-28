@@ -91,7 +91,7 @@
           <div class="meeting" v-if="openMeeting">
             <div class="container-zoom">
               <div id="zoom-hook"></div>
-              <ZoomFrame
+              <ZoomFrame v-if="eventRecord.meeting"
                 :apiKey="eventRecord.meeting.apiKey"
                 :apiSecret="eventRecord.meeting.apiSecret"
                 :nickname="eventUser.publicName"
@@ -357,7 +357,6 @@ export default {
   },
   created () {
     document.title = 'digitalwahl.org'
-    console.log(this.eventRecord)
   },
   mounted () {
     const self = this

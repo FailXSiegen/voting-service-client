@@ -139,7 +139,6 @@
 import { localize } from '@/frame/lib/localization-helper'
 import { convertUnixTimeStampForDatetimeLocaleInput } from '@/frame/lib/time-stamp'
 import datePicker from 'vue-bootstrap-datetimepicker'
-import moment from 'moment'
 import { ORGANIZER } from '@/organizer/api/graphql/gql/queries'
 import { VideoConferenceType } from '@/enum'
 
@@ -194,6 +193,8 @@ export default {
 
     if (this.eventRecord.meetingId && this.eventRecord.meetingId > 0) {
       this.selectedMeetingId = this.eventRecord.meetingId
+      this.selectedMeetingType = this.eventRecord.meetingType
+      this.eventRecord.meetingType = VideoConferenceType.findByValue(this.eventRecord.meetingType)
     }
   },
   methods: {
@@ -214,15 +215,6 @@ export default {
         .replace(/\s+/g, '-')
         .replace(/--/g, '')
         .toLowerCase()
-    },
-    convertScheduledDatetime () {
-      if (this.eventRecord.scheduledDatetime) {
-        return moment(
-          this.eventRecord.scheduledDatetime,
-          'DD.MM.YYYY, HH:mm'
-        ).unix()
-      }
-      return 0
     },
     onMutateEvent () {
       this.$emit('mutateEvent', {

@@ -3,14 +3,13 @@
 </template>
 
 <script>
-import { ZoomMtg } from '@zoomus/websdk'
-
 export default {
   data () {
     return {
       src: '',
       meetConfig: {},
-      signature: {}
+      signature: {},
+      ZoomMtg: null
     }
   },
   props: {
@@ -21,7 +20,10 @@ export default {
     password: String,
     returnUrl: String
   },
-  mounted () {
+  async mounted () {
+    const { ZoomMtg } = await import('@zoomus/websdk')
+    this.ZoomMtg = ZoomMtg
+
     document.getElementById('zmmtg-root').style.display = 'block'
 
     // eslint-disable-next-line
@@ -83,15 +85,15 @@ export default {
       me.meetConfig.signature = res.result
 
       // join function
-      ZoomMtg.init({
+      me.ZoomMtg.init({
         leaveUrl: me.meetConfig.leaveUrl,
         webEndpoint: me.meetConfig.webEndpoint,
         success: () => {
-          ZoomMtg.i18n.load(me.meetConfig.lang)
-          ZoomMtg.i18n.reload(me.meetConfig.lang)
+          me.ZoomMtg.i18n.load(me.meetConfig.lang)
+          me.ZoomMtg.i18n.reload(me.meetConfig.lang)
           // eslint-disable-next-line
           console.log(me.meetConfig)
-          ZoomMtg.join({
+          me.ZoomMtg.join({
             meetingNumber: me.meetConfig.meetingNumber,
             userName: me.meetConfig.userName,
             signature: me.meetConfig.signature,
@@ -105,8 +107,8 @@ export default {
               console.log('join meeting success')
               // eslint-disable-next-line
               console.log('get attendeelist')
-              ZoomMtg.getAttendeeslist({})
-              ZoomMtg.getCurrentUser({
+              me.ZoomMtg.getAttendeeslist({})
+              me.ZoomMtg.getCurrentUser({
                 success: function (res) {
                   // eslint-disable-next-line
                   console.log('success getCurrentUser', res.result.currentUser)

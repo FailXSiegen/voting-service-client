@@ -68,16 +68,17 @@ export default {
       delete updateEvent.deleted
       delete updateEvent.imagePath
       delete updateEvent.organizerId
-      delete updateEvent.meetingType
-      delete updateEvent.meetingId
       updateEvent.active =
         updateEvent.active === true || updateEvent.active === 1
       updateEvent.lobbyOpen =
         updateEvent.lobbyOpen === true || updateEvent.lobbyOpen === 1
-      updateEvent.scheduledDatetime = this.convertScheduledDatetime()
+      updateEvent.scheduledDatetime = this.convertScheduledDatetimeToTimestamp(
+        updateEvent.scheduledDatetime
+      )
       updateEvent.multivoteType = parseInt(updateEvent.multivoteType)
 
       // Handle meeting data.
+      delete updateEvent.meeting
       if (updateEvent.meetingId) {
         updateEvent.meeting = {
           meetingId: updateEvent.meetingId,
@@ -93,7 +94,7 @@ export default {
           variables: { input: updateEvent }
         })
         .then(() => {
-          window.location = '/admin/events'
+          // window.location = '/admin/events'
         })
         .catch(error => {
           addDangerMessage(
@@ -104,7 +105,7 @@ export default {
           console.error(error)
         })
     },
-    convertScheduledDatetime () {
+    convertScheduledDatetimeToTimestamp () {
       if (this.eventRecord.scheduledDatetime) {
         return moment(
           this.eventRecord.scheduledDatetime,
