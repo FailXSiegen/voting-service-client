@@ -14,6 +14,8 @@ export default {
     }
   },
   props: {
+    apiKey: String,
+    apiSecret: String,
     nickname: String,
     meetingId: String,
     password: String,
@@ -38,14 +40,11 @@ export default {
     ZoomMtg.i18n.load('de-DE')
     ZoomMtg.i18n.reload('de-DE')
 
-    var API_KEY = 'O7OouRYfS--ru2f-HFyzgQ'
-    var API_SECRET = 'bT7DdTd2cuw89ecX0OqNVenJ9Jb3soI6Ovsz'
-
     var me = this
     // Meeting config object
     this.meetConfig = {
-      apiKey: API_KEY,
-      apiSecret: API_SECRET,
+      apiKey: this.apiKey,
+      apiSecret: this.apiSecret,
       meetingNumber: this.meetingId,
       userName: this.nickname,
       passWord: this.password,

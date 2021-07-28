@@ -92,9 +92,11 @@
             <div class="container-zoom">
               <div id="zoom-hook"></div>
               <ZoomFrame
+                :apiKey="eventRecord.meeting.apiKey"
+                :apiSecret="eventRecord.meeting.apiSecret"
                 :nickname="eventUser.publicName"
-                :meetingId="meetingId"
-                :password="password"
+                :meetingId="eventRecord.meeting.meetingId"
+                :password="eventRecord.meeting.meetingPassword"
                 :returnUrl="eventRecord.slug"
               />
               <div
@@ -355,6 +357,7 @@ export default {
   },
   created () {
     document.title = 'digitalwahl.org'
+    console.log(this.eventRecord)
   },
   mounted () {
     const self = this
@@ -403,9 +406,6 @@ export default {
       showMoreEnabled: false,
       voteCounter: 1,
       overlayError: false,
-      nickname: 'hans',
-      meetingId: '83308550412',
-      password: '350291',
       openMeeting: false,
       dashboardForeground: false
     }
