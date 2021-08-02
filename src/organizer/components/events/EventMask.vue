@@ -85,6 +85,8 @@
         <option value="0" selected="selected">---</option>
         <option v-for="(meeting, index) in meetings" :key="index" :value="meeting.id">{{ meeting.title }}</option>
       </select>
+      <component v-if="videoConferenceConfigComponent" v-bind:is="videoConferenceConfigComponent"
+                 :config="eventRecord.videoConferenceConfig" @update="onUpdateVideoConferenceConfig"/>
     </div>
     <hr />
     <h3>Mehrfachstimmenabgabe</h3>
@@ -141,10 +143,12 @@ import { convertUnixTimeStampForDatetimeLocaleInput } from '@/frame/lib/time-sta
 import datePicker from 'vue-bootstrap-datetimepicker'
 import { ORGANIZER } from '@/organizer/api/graphql/gql/queries'
 import { VideoConferenceType } from '@/enum'
+import AppZoomConfig from '@/organizer/components/events/detail/video-conference-config/ZoomConfig'
 
 export default {
   components: {
-    datePicker
+    datePicker,
+    AppZoomConfig
   },
   props: {
     eventRecord: {
@@ -191,10 +195,10 @@ export default {
       )
     }
 
-    if (this.eventRecord.meetingId && this.eventRecord.meetingId > 0) {
-      this.selectedMeetingId = this.eventRecord.meetingId
-      this.selectedMeetingType = this.eventRecord.meetingType
-      this.eventRecord.meetingType = VideoConferenceType.findByValue(this.eventRecord.meetingType)
+    if (this.eventRecord.videoConferenceConfig && this.eventRecord.videoConferenceConfig.length > 0) {
+      const config = JSON.parse(this.eventRecord.videoConferenceConfig)
+      this.selectedMeetingId = config.id
+      this.selectedMeetingType = config.type
     }
   },
   methods: {
@@ -225,13 +229,18 @@ export default {
       const selectedMeeting = this.meetings.filter(meeting => meeting.id === this.selectedMeetingId)[0] || null
       if (selectedMeeting === null) {
         this.selectedMeetingType = null
-        this.eventRecord.meetingId = null
-        this.eventRecord.meetingType = null
+        this.eventRecord.videoConferenceConfig = null
         return
       }
       this.selectedMeetingType = selectedMeeting.type
-      this.eventRecord.meetingId = this.selectedMeetingId
-      this.eventRecord.meetingType = VideoConferenceType.findByValue(this.selectedMeetingType)
+      this.eventRecord.videoConferenceConfig = JSON.stringify({
+        id: selectedMeeting.id,
+        type: selectedMeeting.type,
+        credentials: {}
+      })
+    },
+    onUpdateVideoConferenceConfig (event) {
+      this.eventRecord.videoConferenceConfig = JSON.stringify(event.config)
     },
     localize (path) {
       return localize(path)
@@ -248,6 +257,17 @@ export default {
         })
       }
       return meetings
+    },
+    videoConferenceConfigComponent () {
+      const config = JSON.parse(this.eventRecord.videoConferenceConfig)
+      if (!config || !config.type) {
+        return null
+      }
+      switch (config.type) {
+        case VideoConferenceType.ZOOM:
+          return AppZoomConfig
+      }
+      return null
     }
   }
 }

@@ -91,12 +91,12 @@
           <div class="meeting" v-if="openMeeting">
             <div class="container-zoom">
               <div id="zoom-hook"></div>
-              <ZoomFrame v-if="eventRecord.meeting"
+              <ZoomFrame v-if="eventRecord.meeting.credentials"
                 :apiKey="eventRecord.meeting.apiKey"
                 :apiSecret="eventRecord.meeting.apiSecret"
                 :nickname="eventUser.publicName"
-                :meetingId="eventRecord.meeting.meetingId"
-                :password="eventRecord.meeting.meetingPassword"
+                :meetingId="eventRecord.meeting.credentials.id"
+                :password="eventRecord.meeting.credentials.password"
                 :returnUrl="eventRecord.slug"
               />
               <div

@@ -1,24 +1,16 @@
 <template>
   <form @submit.prevent="onSubmit">
     <div class="form-group">
-      <label>title *</label>
-      <input v-model="meeting.title" required="required" class="form-control">
+      <label for="title">Titel*</label>
+      <input id="title" v-model="meeting.title" required="required" class="form-control">
     </div>
     <div class="form-group">
-      <label>apiKey *</label>
-      <input v-model="meeting.apiKey" required="required" class="form-control">
+      <label for="apiKey">API Key*</label>
+      <input id="apiKey" v-model="meeting.apiKey" required="required" class="form-control">
     </div>
     <div class="form-group">
-      <label>apiSecret *</label>
-      <input v-model="meeting.apiSecret" required="required" class="form-control">
-    </div>
-    <div class="form-group">
-      <label>meetingId *</label>
-      <input v-model="meeting.meetingId" required="required" class="form-control">
-    </div>
-    <div class="form-group">
-      <label>meetingPassword</label>
-      <input v-model="meeting.meetingPassword" class="form-control">
+      <label for="apiSecret">API Secret*</label>
+      <input id="apiSecret" v-model="meeting.apiSecret" required="required" class="form-control">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
@@ -34,9 +26,7 @@ export default {
         return {
           title: '',
           apiKey: '',
-          apiSecret: '',
-          meetingId: '',
-          meetingPassword: ''
+          apiSecret: ''
         }
       }
     }
