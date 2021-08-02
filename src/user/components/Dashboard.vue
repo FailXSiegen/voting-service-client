@@ -286,7 +286,7 @@ export default {
         }
       },
       result ({ data }) {
-        if (data.pollResult.length > 0) {
+        if (data.pollResult && data.pollResult.length > 0) {
           this.lastPollResult = data.pollResult[0]
         }
         if (data.pollResult && data.pollResult.length === 1) {

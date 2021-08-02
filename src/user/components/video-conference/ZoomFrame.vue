@@ -33,8 +33,8 @@ export default {
 
     // CDN version default
     ZoomMtg.setZoomJSLib(
-      'https://dmogdx0jrul3u.cloudfront.net/1.9.6/lib',
-      '/av'
+      'https://dmogdx0jrul3u.cloudfront.net/1.9.7/lib',
+      '/av' // @todo move to public folder on build! node_modules/@zoomus/websdk/dist/lib/av
     )
     ZoomMtg.preLoadWasm()
     ZoomMtg.prepareJssdk()
