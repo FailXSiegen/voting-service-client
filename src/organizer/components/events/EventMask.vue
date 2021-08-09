@@ -81,12 +81,25 @@
     </div>
     <div v-if="organizer" class="form-group">
       <label>Videokonferenz-System-Auswahl</label>
-      <select v-model="selectedMeetingId" class="form-control" @change="onChangeMeeting">
+      <select
+        v-model="selectedMeetingId"
+        class="form-control"
+        @change="onChangeMeeting"
+      >
         <option value="0" selected="selected">---</option>
-        <option v-for="(meeting, index) in meetings" :key="index" :value="meeting.id">{{ meeting.title }}</option>
+        <option
+          v-for="(meeting, index) in meetings"
+          :key="index"
+          :value="meeting.id"
+          >{{ meeting.title }}</option
+        >
       </select>
-      <component v-if="videoConferenceConfigComponent" v-bind:is="videoConferenceConfigComponent"
-                 :config="eventRecord.videoConferenceConfig" @update="onUpdateVideoConferenceConfig"/>
+      <component
+        v-if="selectedMeetingId"
+        v-bind:is="videoConferenceConfigComponent"
+        :config="eventRecord.videoConferenceConfig"
+        @update="onUpdateVideoConferenceConfig"
+      />
     </div>
     <hr />
     <h3>Mehrfachstimmenabgabe</h3>
@@ -189,13 +202,19 @@ export default {
     }
   },
   created () {
-    if (this.eventRecord.scheduledDatetime) {
+    if (
+      this.eventRecord.scheduledDatetime &&
+      Number.isInteger(this.eventRecord.scheduledDatetime)
+    ) {
       this.eventRecord.scheduledDatetime = convertUnixTimeStampForDatetimeLocaleInput(
         this.eventRecord.scheduledDatetime
       )
     }
 
-    if (this.eventRecord.videoConferenceConfig && this.eventRecord.videoConferenceConfig.length > 0) {
+    if (
+      this.eventRecord.videoConferenceConfig &&
+      this.eventRecord.videoConferenceConfig.length > 0
+    ) {
       const config = JSON.parse(this.eventRecord.videoConferenceConfig)
       this.selectedMeetingId = config.id
       this.selectedMeetingType = config.type
@@ -226,7 +245,10 @@ export default {
       })
     },
     onChangeMeeting () {
-      const selectedMeeting = this.meetings.filter(meeting => meeting.id === this.selectedMeetingId)[0] || null
+      const selectedMeeting =
+        this.meetings.filter(
+          meeting => meeting.id === this.selectedMeetingId
+        )[0] || null
       if (selectedMeeting === null) {
         this.selectedMeetingType = null
         this.eventRecord.videoConferenceConfig = null

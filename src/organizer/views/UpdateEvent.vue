@@ -23,7 +23,7 @@ import AppEventMask from '@/organizer/components/events/EventMask'
 import { localize } from '@/frame/lib/localization-helper'
 import { convertUnixTimeStampForDatetimeLocaleInput } from '@/frame/lib/time-stamp'
 import { fetchEventBySlug } from '@/user/api/fetch/event'
-import { addDangerMessage } from '@/frame/lib/alert-helper'
+import { addDangerMessage, addSuccessMessage } from '@/frame/lib/alert-helper'
 import { UPDATE_EVENT_MUTATION } from '@/organizer/api/graphql/gql/mutations'
 import moment from 'moment'
 
@@ -94,6 +94,11 @@ export default {
           variables: { input: updateEvent }
         })
         .then(() => {
+          addSuccessMessage(
+            'Gespeichert',
+            'Das Event wurde gespeichert.<br /><br /><a class="btn btn-primary" href="/admin/events">Zurück zu den Events</a>',
+            true
+          )
           // window.location = '/admin/events'
         })
         .catch(error => {

@@ -1,0 +1,27 @@
+#zmmtg-root {
+    span {
+        color: white !important;
+    }
+    .media-preview-icon-mic-option {
+        background-position: -272px -96px;
+    }
+    #wc-container-right {
+        span {
+            color: black !important;
+        }
+    }
+    .chat-item__left-container > span {
+        margin-right: 15px;
+    }
+    button {
+        &[aria-expanded='true'] + ul{
+            display: block !important;
+            z-index: 1200 !important;
+            li a {
+                padding: 0 35px;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+        }
+    }
+}
