@@ -34,12 +34,15 @@ export default {
     if (
       response === null ||
       response.success === false ||
+      response.event === null ||
       response.event.organizerId !== this.$store.getters.getCurrentUserId
     ) {
       await this.$router.push('/admin/events')
     }
+
     this.eventRecord = response.event
     if (
+      this.eventRecord &&
       this.eventRecord.scheduledDatetime &&
       Number.isInteger(this.eventRecord.scheduledDatetime)
     ) {
