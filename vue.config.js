@@ -17,7 +17,7 @@ module.exports = {
       .use('url-loader')
       .loader('url-loader')
       .tap(options => {
-        options.fallback.options.name = '../../fonts/[name].[hash:8].[ext]'
+        options.fallback.options.name = '../../fonts/[name].[ext]'
         return options
       })
   }
