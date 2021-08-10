@@ -37,7 +37,8 @@ export default {
       response.event === null ||
       response.event.organizerId !== this.$store.getters.getCurrentUserId
     ) {
-      await this.$router.push('/admin/events')
+      console.log(response)
+      // await this.$router.push('/admin/events')
     }
 
     this.eventRecord = response.event
