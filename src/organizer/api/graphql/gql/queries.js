@@ -109,8 +109,6 @@ export const ORGANIZER = gql`
       title
       apiKey
       apiSecret
-      meetingId
-      meetingPassword
     }
   }
 }
@@ -191,8 +189,6 @@ export const ZOOM_MEETING = gql`
       title
       apiKey
       apiSecret
-      meetingId
-      meetingPassword
     }
   }
 `
