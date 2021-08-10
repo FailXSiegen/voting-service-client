@@ -143,8 +143,6 @@ export const CREATE_ZOOM_MEETING = gql`mutation CreateZoomMeeting($input: Create
     title
     apiKey
     apiSecret
-    meetingId
-    meetingPassword
   }
 }`
 
@@ -154,8 +152,6 @@ export const UPDATE_ZOOM_MEETING = gql`mutation CreateZoomMeeting($input: Update
     title
     apiKey
     apiSecret
-    meetingId
-    meetingPassword
   }
 }`
 
