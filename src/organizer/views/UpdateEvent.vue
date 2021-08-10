@@ -39,9 +39,14 @@ export default {
       await this.$router.push('/admin/events')
     }
     this.eventRecord = response.event
-    this.eventRecord.scheduledDatetime = convertUnixTimeStampForDatetimeLocaleInput(
-      this.eventRecord.scheduledDatetime
-    )
+    if (
+      this.eventRecord.scheduledDatetime &&
+      Number.isInteger(this.eventRecord.scheduledDatetime)
+    ) {
+      this.eventRecord.scheduledDatetime = convertUnixTimeStampForDatetimeLocaleInput(
+        this.eventRecord.scheduledDatetime
+      )
+    }
   },
   props: {
     eventSlug: {
