@@ -24,4 +24,35 @@
             }
         }
     }
+    .window-merge-disabled {
+        display: none !important;
+    }
+}
+@media(max-width: 768px) {
+    .ReactModalPortal {
+        .window-merge-disabled {
+            display: none !important;
+        }
+        .window-close {
+            transform: scale(2);
+        }
+        #chat-window,
+        #participant-window {
+            width: 95vw !important;
+            height: 80vh  !important;
+        }
+        .participants-section-container__participants-footer-bottom {
+            display: none !important;
+        }
+    }
+    #zmmtg-root { 
+        .more-button .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+    }
+    .participants-li {
+        padding: 13px 10px 13px 8px;
+    }
+    
 }
