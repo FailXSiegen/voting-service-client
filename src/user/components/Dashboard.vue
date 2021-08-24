@@ -85,13 +85,14 @@
             v-if="!openMeeting"
             class="btn btn-primary"
           >
-            An Videkonferenz teilnehmen
+            An Videokonferenz teilnehmen
           </button>
 
           <div class="meeting" v-if="openMeeting">
             <div class="container-zoom">
               <div id="zoom-hook"></div>
-              <ZoomFrame v-if="eventRecord.meeting.credentials"
+              <ZoomFrame
+                v-if="eventRecord.meeting.credentials"
                 :apiKey="eventRecord.meeting.apiKey"
                 :apiSecret="eventRecord.meeting.apiSecret"
                 :nickname="eventUser.publicName"
