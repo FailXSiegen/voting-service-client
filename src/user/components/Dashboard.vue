@@ -103,8 +103,9 @@
               <div
                 class="btn btn-primary position-fixed sticky-top mt-2"
                 @click.prevent="onToggleVideoConference"
+                title="Ansicht wechseln"
               >
-                Ansicht wechseln
+                <i class="bi bi-arrow-repeat bi--2xl"></i>
               </div>
             </div>
           </div>

@@ -29,6 +29,13 @@
     }
 }
 @media(max-width: 768px) {
+    html, body {
+        min-width: 1px !important;
+    }
+    h1.meeting-title {
+        font-size:1em;
+    }
+    
     .ReactModalPortal {
         .window-merge-disabled {
             display: none !important;
@@ -37,22 +44,30 @@
             transform: scale(2);
         }
         #chat-window,
-        #participant-window {
+        #participant-window,
+        .dialog-rename-container {
             width: 95vw !important;
             height: 80vh  !important;
         }
         .participants-section-container__participants-footer-bottom {
             display: none !important;
         }
+        .participants-li {
+            padding: 13px 10px 13px 10px !important;
+        }
+        .participants-item__buttons {
+            .btn {
+                font-size: 1em;
+            }
+        }
     }
     #zmmtg-root { 
+        overflow: hidden;
         .more-button .dropdown-menu {
             left: auto;
             right: 0;
         }
     }
-    .participants-li {
-        padding: 13px 10px 13px 8px;
-    }
+  
     
 }
