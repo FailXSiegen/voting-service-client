@@ -1,4 +1,7 @@
 #zmmtg-root {
+    &.hidden ~ .meeting-info-container {
+        display:none;
+    }
     span {
         color: white !important;
     }
@@ -35,7 +38,7 @@
     h1.meeting-title {
         font-size:1em;
     }
-    
+
     .ReactModalPortal {
         .window-merge-disabled {
             display: none !important;

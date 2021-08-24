@@ -527,9 +527,9 @@ export default {
     },
     onToggleVideoConference () {
       if (!this.dashboardForeground) {
-        $('#zmmtg-root').hide()
+        $('#zmmtg-root').addClass('hidden').hide()
       } else {
-        $('#zmmtg-root').show()
+        $('#zmmtg-root').removeClass('hidden').show()
       }
       this.dashboardForeground = !this.dashboardForeground
     },
