@@ -2576,10 +2576,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zoomus/websdk@1.9.7":
-  version "1.9.7"
-  resolved "https://registry.yarnpkg.com/@zoomus/websdk/-/websdk-1.9.7.tgz#3ae24bc87923ee72651de5e60c6c058ca94756b2"
-  integrity sha512-7k/NmihhBfPymhgFwdO7xfLS9YggH2szA7+kGQ8M8q6TcfDSB3/s0dM8a4ediCoSKbTUbh1oMXSiYZfYj4GCwQ==
+"@zoomus/websdk@^1.9":
+  version "1.9.8"
+  resolved "https://registry.yarnpkg.com/@zoomus/websdk/-/websdk-1.9.8.tgz#dba96707780277fd3a1d0b453e8aa8b5a3ad3782"
+  integrity sha512-v6U1tqXdlwrJTn++fVpD0qFDlHViAE4+yUUXeIGDrylC3RlqIkm0HKY2k8RQJ6U+7VySUERGqnuyreSo0PsdZQ==
   dependencies:
     lodash "^4.17.21"
     react "16.8.6"

@@ -23,14 +23,7 @@ export default {
   async mounted () {
     const { ZoomMtg } = await import('@zoomus/websdk')
     this.ZoomMtg = ZoomMtg
-
     document.getElementById('zmmtg-root').style.display = 'block'
-
-    // eslint-disable-next-line
-    console.log('checkSystemRequirements')
-    // eslint-disable-next-line
-    console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()))
-
     // CDN version default
     ZoomMtg.setZoomJSLib(
       '/lib/zoom/lib',
@@ -79,11 +72,7 @@ export default {
       document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
     },
     join (me, res) {
-      // eslint-disable-next-line
-      console.log('success signature: ' + res.result)
-
       me.meetConfig.signature = res.result
-
       // join function
       me.ZoomMtg.init({
         leaveUrl: me.meetConfig.leaveUrl,
@@ -92,7 +81,6 @@ export default {
           me.ZoomMtg.i18n.load(me.meetConfig.lang)
           me.ZoomMtg.i18n.reload(me.meetConfig.lang)
           // eslint-disable-next-line
-          console.log(me.meetConfig)
           me.ZoomMtg.join({
             meetingNumber: me.meetConfig.meetingNumber,
             userName: me.meetConfig.userName,
@@ -101,12 +89,6 @@ export default {
             userEmail: me.meetConfig.userEmail,
             passWord: me.meetConfig.passWord,
             success: function (res) {
-              // eslint-disable-next-line
-              console.log(res)
-              // eslint-disable-next-line
-              console.log('join meeting success')
-              // eslint-disable-next-line
-              console.log('get attendeelist')
               me.ZoomMtg.getAttendeeslist({})
               me.ZoomMtg.getCurrentUser({
                 success: function (res) {

@@ -69,6 +69,8 @@ export default {
       }
       delete newEvent.meetingId
       delete newEvent.meetingType
+      delete newEvent.deletePlanned
+      delete newEvent.deleteDatetime
 
       this.$apollo
         .mutate({
