@@ -35,6 +35,9 @@
     html, body {
         min-width: 1px !important;
     }
+    body.zoom-hidden {
+        overflow: auto !important;
+    }
     h1.meeting-title {
         font-size:1em;
     }
@@ -46,11 +49,13 @@
         .window-close {
             transform: scale(2);
         }
+        #polling-window,
         #chat-window,
         #participant-window,
         .dialog-rename-container {
             width: 95vw !important;
             height: 80vh  !important;
+            overflow: auto;
         }
         .participants-section-container__participants-footer-bottom {
             display: none !important;

@@ -527,9 +527,15 @@ export default {
     },
     onToggleVideoConference () {
       if (!this.dashboardForeground) {
-        $('#zmmtg-root').addClass('hidden').hide()
+        $('body').addClass('zoom-hidden')
+        $('#zmmtg-root')
+          .addClass('hidden')
+          .hide()
       } else {
-        $('#zmmtg-root').removeClass('hidden').show()
+        $('body').addClass('zoom-show')
+        $('#zmmtg-root')
+          .removeClass('hidden')
+          .show()
       }
       this.dashboardForeground = !this.dashboardForeground
     },
