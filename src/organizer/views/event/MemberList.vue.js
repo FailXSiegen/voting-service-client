@@ -3,11 +3,11 @@ import AppVerifiedUsers from '@/organizer/components/events/detail/VerifiedUsers
 import { localize } from '@/frame/lib/localization-helper'
 import { fetchEventBySlug } from '@/user/api/fetch/event'
 import { EVENT_USERS_BY_EVENT } from '@/organizer/api/graphql/gql/queries'
-import {
-  EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
-  NEW_EVENT_USER_SUBSCRIPTION,
-  UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION
-} from '@/frame/api/graphql/gql/subscriptions'
+// import {
+//   EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
+// NEW_EVENT_USER_SUBSCRIPTION,
+//   UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION
+// } from '@/frame/api/graphql/gql/subscriptions'
 
 export default {
   props: {
@@ -66,54 +66,54 @@ export default {
           eventId: this.eventRecord.id
         }
       }
-    },
-    $subscribe: {
-      updateEventUserAccessRights: {
-        query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
-        result ({ data }) {
-          const { eventUserId, eventId, verified, allowToVote, voteAmount } = data.updateEventUserAccessRights
-          if (parseInt(eventId) !== this.eventRecord.id) {
-            return
-          }
-          const eventUser = this.eventUsers.find((user) => {
-            return user.id === eventUserId
-          })
-          if (!eventUser) {
-            return
-          }
-          eventUser.verified = verified
-          eventUser.allowToVote = allowToVote
-          eventUser.voteAmount = voteAmount
-        }
-      },
-      newEventUser: {
-        query: NEW_EVENT_USER_SUBSCRIPTION,
-        result ({ data }) {
-          if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
-            return
-          }
-          this.eventUsers.push({ ...data.newEventUser })
-        }
-      },
-      eventUserLifeCycle: {
-        query: EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
-        result ({ data }) {
-          let eventUserFound = false
-          if (data.eventUserLifeCycle) {
-            const eventUserId = data.eventUserLifeCycle.eventUserId
-            this.eventUsers.forEach(eventUser => {
-              if (eventUserId === eventUser.id) {
-                eventUserFound = true
-                eventUser.online = data.eventUserLifeCycle.online
-              }
-            })
-            if (!eventUserFound && data.eventUserLifeCycle.username) {
-              this.eventUsers.push({ ...data.eventUserLifeCycle })
-            }
-          }
-        }
-      }
     }
+    // $subscribe: {
+    //   updateEventUserAccessRights: {
+    //     query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
+    //     result ({ data }) {
+    //       const { eventUserId, eventId, verified, allowToVote, voteAmount } = data.updateEventUserAccessRights
+    //       if (parseInt(eventId) !== this.eventRecord.id) {
+    //         return
+    //       }
+    //       const eventUser = this.eventUsers.find((user) => {
+    //         return user.id === eventUserId
+    //       })
+    //       if (!eventUser) {
+    //         return
+    //       }
+    //       eventUser.verified = verified
+    //       eventUser.allowToVote = allowToVote
+    //       eventUser.voteAmount = voteAmount
+    //     }
+    //   },
+    // newEventUser: {
+    //   query: NEW_EVENT_USER_SUBSCRIPTION,
+    //   result ({ data }) {
+    //     if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
+    //       return
+    //     }
+    //     this.eventUsers.push({ ...data.newEventUser })
+    //   }
+    // },
+    // eventUserLifeCycle: {
+    //   query: EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
+    //   result ({ data }) {
+    //     let eventUserFound = false
+    //     if (data.eventUserLifeCycle) {
+    //       const eventUserId = data.eventUserLifeCycle.eventUserId
+    //       this.eventUsers.forEach(eventUser => {
+    //         if (eventUserId === eventUser.id) {
+    //           eventUserFound = true
+    //           eventUser.online = data.eventUserLifeCycle.online
+    //         }
+    //       })
+    //       if (!eventUserFound && data.eventUserLifeCycle.username) {
+    //         this.eventUsers.push({ ...data.eventUserLifeCycle })
+    //       }
+    //     }
+    //   }
+    // }
+    // }
   },
   computed: {
     verifiedUsers () {

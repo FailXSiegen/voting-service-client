@@ -20,12 +20,12 @@ import {
   START_POLL,
   STOP_POLL
 } from '@/organizer/api/graphql/gql/mutations'
-import {
-  NEW_EVENT_USER_SUBSCRIPTION,
-  POLL_ANSWER_LIVE_CYCLE_SUBSCRIPTION,
-  POLL_LIFE_CYCLE_SUBSCRIPTION,
-  EVENT_USER_LIFE_CYCLE_SUBSCRIPTION
-} from '@/frame/api/graphql/gql/subscriptions'
+// import {
+//   NEW_EVENT_USER_SUBSCRIPTION,
+//   POLL_ANSWER_LIVE_CYCLE_SUBSCRIPTION,
+//   POLL_LIFE_CYCLE_SUBSCRIPTION,
+//   EVENT_USER_LIFE_CYCLE_SUBSCRIPTION
+// } from '@/frame/api/graphql/gql/subscriptions'
 
 export default {
   async created () {
@@ -114,79 +114,79 @@ export default {
           this.showMoreEnabled = true
         }
       }
-    },
-    $subscribe: {
-      newEventUser: {
-        query: NEW_EVENT_USER_SUBSCRIPTION,
-        result ({ data }) {
-          if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
-            return
-          }
-          this.eventUsers.push({ ...data.newEventUser })
-        }
-      },
-      eventUserLifeCycle: {
-        query: EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
-        result ({ data }) {
-          let eventUserFound = false
-          if (data.eventUserLifeCycle) {
-            const eventUserId = data.eventUserLifeCycle.eventUserId
-            this.eventUsers.forEach(eventUser => {
-              if (eventUserId === eventUser.id) {
-                eventUserFound = true
-                eventUser.online = data.eventUserLifeCycle.online
-              }
-            })
-            if (!eventUserFound && data.eventUserLifeCycle.username) {
-              this.eventUsers.push({ ...data.eventUserLifeCycle })
-            }
-          }
-        }
-      },
-      pollAnswerLifeCycle: {
-        query: POLL_ANSWER_LIVE_CYCLE_SUBSCRIPTION,
-        variables () {
-          return {
-            eventId: this.eventRecord.id
-          }
-        },
-        result ({ data }) {
-          if (parseInt(data.pollAnswerLifeCycle.eventId) === parseInt(this.eventRecord.id)) {
-            this.activePollAnswerCount = data.pollAnswerLifeCycle.pollAnswersCount
-            this.activePollMaxAnswer = data.pollAnswerLifeCycle.maxVotes
-            this.pollUserCount = data.pollAnswerLifeCycle.pollUserCount
-            this.pollUserVotedCount = data.pollAnswerLifeCycle.pollUserVotedCount
-          }
-        }
-      },
-      pollLifeCycle: {
-        query: POLL_LIFE_CYCLE_SUBSCRIPTION,
-        variables () {
-          return {
-            eventId: this.eventRecord.id
-          }
-        },
-        result ({ data }) {
-          if (
-            data.pollLifeCycle.poll &&
-            data.pollLifeCycle.state !== 'closed'
-          ) {
-            this.activePoll = data.pollLifeCycle.poll
-            this.$apollo.queries.activePollEventUser.refetch()
-            this.$apollo.queries.activePollEventUser.startPolling(5000)
-          }
-          if (data.pollLifeCycle.state === 'closed') {
-            this.activePoll = undefined
-            this.activePollAnswerCount = 0
-            this.activePollMaxAnswer = 0
-            this.pollUserCount = 0
-            this.pollUserVotedCount = 0
-            this.$apollo.queries.activePollEventUser.stopPolling()
-            this.$apollo.queries.pollResult.refetch()
-          }
-        }
-      }
     }
+    // $subscribe: {
+    //   newEventUser: {
+    //     query: NEW_EVENT_USER_SUBSCRIPTION,
+    //     result ({ data }) {
+    //       if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
+    //         return
+    //       }
+    //       this.eventUsers.push({ ...data.newEventUser })
+    //     }
+    //   },
+    //   eventUserLifeCycle: {
+    //     query: EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
+    //     result ({ data }) {
+    //       let eventUserFound = false
+    //       if (data.eventUserLifeCycle) {
+    //         const eventUserId = data.eventUserLifeCycle.eventUserId
+    //         this.eventUsers.forEach(eventUser => {
+    //           if (eventUserId === eventUser.id) {
+    //             eventUserFound = true
+    //             eventUser.online = data.eventUserLifeCycle.online
+    //           }
+    //         })
+    //         if (!eventUserFound && data.eventUserLifeCycle.username) {
+    //           this.eventUsers.push({ ...data.eventUserLifeCycle })
+    //         }
+    //       }
+    //     }
+    //   },
+    //   pollAnswerLifeCycle: {
+    //     query: POLL_ANSWER_LIVE_CYCLE_SUBSCRIPTION,
+    //     variables () {
+    //       return {
+    //         eventId: this.eventRecord.id
+    //       }
+    //     },
+    //     result ({ data }) {
+    //       if (parseInt(data.pollAnswerLifeCycle.eventId) === parseInt(this.eventRecord.id)) {
+    //         this.activePollAnswerCount = data.pollAnswerLifeCycle.pollAnswersCount
+    //         this.activePollMaxAnswer = data.pollAnswerLifeCycle.maxVotes
+    //         this.pollUserCount = data.pollAnswerLifeCycle.pollUserCount
+    //         this.pollUserVotedCount = data.pollAnswerLifeCycle.pollUserVotedCount
+    //       }
+    //     }
+    //   },
+    //   pollLifeCycle: {
+    //     query: POLL_LIFE_CYCLE_SUBSCRIPTION,
+    //     variables () {
+    //       return {
+    //         eventId: this.eventRecord.id
+    //       }
+    //     },
+    //     result ({ data }) {
+    //       if (
+    //         data.pollLifeCycle.poll &&
+    //         data.pollLifeCycle.state !== 'closed'
+    //       ) {
+    //         this.activePoll = data.pollLifeCycle.poll
+    //         this.$apollo.queries.activePollEventUser.refetch()
+    //         this.$apollo.queries.activePollEventUser.startPolling(5000)
+    //       }
+    //       if (data.pollLifeCycle.state === 'closed') {
+    //         this.activePoll = undefined
+    //         this.activePollAnswerCount = 0
+    //         this.activePollMaxAnswer = 0
+    //         this.pollUserCount = 0
+    //         this.pollUserVotedCount = 0
+    //         this.$apollo.queries.activePollEventUser.stopPolling()
+    //         this.$apollo.queries.pollResult.refetch()
+    //       }
+    //     }
+    //   }
+    // }
   },
   data () {
     return {

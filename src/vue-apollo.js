@@ -1,15 +1,15 @@
-import { logErrorMessages } from '@vue/apollo-util'
+// import { logErrorMessages } from '@vue/apollo-util'
 import { onError } from 'apollo-link-error'
-import { handleGraphQlErrors } from './frame/error/handler/apollo-error-handler'
-import { restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
+// import { handleGraphQlErrors } from './frame/error/handler/apollo-error-handler'
+// import { restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { split, ApolloLink } from 'apollo-link'
-import { WebSocketLink } from 'apollo-link-ws'
-import { getMainDefinition } from 'apollo-utilities'
+import { ApolloLink } from 'apollo-link'
+// import { WebSocketLink } from 'apollo-link-ws'
+// import { getMainDefinition } from 'apollo-utilities'
 import { TokenRefreshLink } from 'apollo-link-token-refresh'
 import { jwtDecode } from '@/frame/lib/jwt-util'
 import router from '@/router'
@@ -19,27 +19,28 @@ import { getCurrentUnixTimeStamp } from '@/frame/lib/time-stamp'
 export const AUTH_TOKEN = 'apollo-token'
 
 const uriHttp = process.env.VUE_APP_GRAPHQL_ENDPOINT
-const uriWs = process.env.VUE_APP_WS_ENDPOINT
+// const uriWs = process.env.VUE_APP_WS_ENDPOINT
 
 const headers = { authorization: getAuth() }
 
 const httpLink = new HttpLink({ uri: uriHttp, headers })
-export const wsLink = new WebSocketLink({
-  uri: uriWs,
-  options: {
-    reconnect: true,
-    lazy: true,
-    connectionParams () {
-      return { headers }
-    }
-  }
-})
+/* @ToDo replace Websocket Init */
+// export const wsLink = new WebSocketLink({
+//   uri: uriWs,
+//   options: {
+//     reconnect: true,
+//     lazy: true,
+//     connectionParams () {
+//       return { headers }
+//     }
+//   }
+// })
 
 const refreshTokenLink = new TokenRefreshLink({
   isTokenValidOrUndefined: () => {
     const token = localStorage.getItem(AUTH_TOKEN)
     if (token === null) {
-      router.push('/').catch(() => {})
+      router.push('/').catch(() => { })
     }
     const decodedToken = jwtDecode(token)
     return decodedToken.payload.exp > getCurrentUnixTimeStamp()
@@ -64,53 +65,54 @@ const refreshTokenLink = new TokenRefreshLink({
 const errorLink = onError(error => {
   if (typeof error !== 'undefined') {
     if (error.graphQLErrors) {
-      handleGraphQlErrors(error)
-      onResetLocalStorage()
+      // handleGraphQlErrors(error)
+      // onResetLocalStorage()
     }
-    logErrorMessages(error)
+    // logErrorMessages(error)
   }
 })
-wsLink.subscriptionClient.on('connecting', () => {
-  if (process.env.VUE_APP_VERBOSE === '1') {
-    console.info('connecting to websocket')
-  }
-})
+/* @ToDo replace Websocket C heck if connection exists */
+// wsLink.subscriptionClient.on('connecting', () => {
+//   if (process.env.VUE_APP_VERBOSE === '1') {
+//     console.info('connecting to websocket')
+//   }
+// })
 
-wsLink.subscriptionClient.on('connected', () => {
-  if (process.env.VUE_APP_VERBOSE === '1') {
-    console.info('connected to websocket')
-  }
-})
+// wsLink.subscriptionClient.on('connected', () => {
+//   if (process.env.VUE_APP_VERBOSE === '1') {
+//     console.info('connected to websocket')
+//   }
+// })
 
-wsLink.subscriptionClient.on('reconnecting', () => {
-  if (process.env.VUE_APP_VERBOSE === '1') {
-    console.info('reconnecting to websocket')
-  }
-})
+// wsLink.subscriptionClient.on('reconnecting', () => {
+//   if (process.env.VUE_APP_VERBOSE === '1') {
+//     console.info('reconnecting to websocket')
+//   }
+// })
 
-wsLink.subscriptionClient.on('reconnected', () => {
-  if (process.env.VUE_APP_VERBOSE === '1') {
-    console.info('reconnected to websocket')
-  }
-})
+// wsLink.subscriptionClient.on('reconnected', () => {
+//   if (process.env.VUE_APP_VERBOSE === '1') {
+//     console.info('reconnected to websocket')
+//   }
+// })
 
-wsLink.subscriptionClient.on('disconnected', () => {
-  if (process.env.VUE_APP_VERBOSE === '1') {
-    console.info('disconnected to websocket')
-  }
-})
+// wsLink.subscriptionClient.on('disconnected', () => {
+//   if (process.env.VUE_APP_VERBOSE === '1') {
+//     console.info('disconnected to websocket')
+//   }
+// })
 
-wsLink.subscriptionClient.maxConnectTimeGenerator.duration = () => wsLink.subscriptionClient.maxConnectTimeGenerator.max
+// wsLink.subscriptionClient.maxConnectTimeGenerator.duration = () => wsLink.subscriptionClient.maxConnectTimeGenerator.max
 
 // combine http and ws link
-const splitLink = split(({ query }) => {
-  const { kind, operation } = getMainDefinition(query)
-  return kind === 'OperationDefinition' && operation === 'subscription'
-}, wsLink, httpLink)
+// const splitLink = split(({ query }) => {
+//   const { kind, operation } = getMainDefinition(query)
+//   return kind === 'OperationDefinition' && operation === 'subscription'
+// }, wsLink, httpLink)
 
 export const defaultClient = new ApolloClient({
   link: ApolloLink.from([
-    refreshTokenLink, errorLink, splitLink
+    refreshTokenLink, errorLink, httpLink
   ]),
   cache: new InMemoryCache(),
   connectToDevTools: true
@@ -133,15 +135,15 @@ function getAuth () {
   return ''
 }
 
-function recoverWsClient (apolloClient) {
-  headers.authorization = getAuth()
-  if (apolloClient.wsClient) {
-    restartWebsockets(apolloClient.wsClient)
-    return
-  }
-  apolloClient.wsClient = wsLink.subscriptionClient
-  restartWebsockets(apolloClient.wsClient)
-}
+// function recoverWsClient (apolloClient) {
+//   headers.authorization = getAuth()
+//   if (apolloClient.wsClient) {
+//     restartWebsockets(apolloClient.wsClient)
+//     return
+//   }
+//   apolloClient.wsClient = wsLink.subscriptionClient
+//   restartWebsockets(apolloClient.wsClient)
+// }
 
 export default apolloProvider
 
@@ -149,7 +151,7 @@ export async function onLogin (apolloClient, token) {
   if (typeof localStorage !== 'undefined' && token) {
     localStorage.setItem(AUTH_TOKEN, token)
   }
-  recoverWsClient(apolloClient)
+  // recoverWsClient(apolloClient)
   try {
     await apolloClient.resetStore()
   } catch (e) {
@@ -174,9 +176,9 @@ export async function onLogout (apolloClient) {
   } catch (error) {
     console.error(error)
   }
-  if (apolloClient.wsClient) {
-    apolloClient.wsClient.close(true)
-  }
+  // if (apolloClient.wsClient) {
+  //   apolloClient.wsClient.close(true)
+  // }
   try {
     // await this.onResetLocalStorage()
   } catch (e) {
