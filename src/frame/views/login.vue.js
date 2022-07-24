@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import { onLogin as loginApolloClient } from '@/vue-apollo'
 import { fetchEventBySlug } from '@/user/api/fetch/event'
 import AppFooter from '@/frame/components/Footer'
+import gql from 'graphql-tag'
 
 export default {
   metaInfo: {
@@ -14,6 +15,16 @@ export default {
   },
   components: {
     AppFooter
+  },
+  apollo: {
+    $subscribe: {
+      greetings: {
+        query: gql`subscription { greetings }`,
+        result ({ data }) {
+          console.log(data)
+        }
+      }
+    }
   },
   data () {
     return {

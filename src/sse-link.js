@@ -9,7 +9,6 @@ class SSELink extends ApolloLink {
   }
 
   request (operation) {
-    console.log('sse Request')
     return new Observable((sink) => {
       return this.client.subscribe(Object.assign(Object.assign({}, operation), { query: print(operation.query) }), {
         next: sink.next.bind(sink),
@@ -19,6 +18,6 @@ class SSELink extends ApolloLink {
     })
   }
 }
-export const sseApolloLink = new SSELink({
-  url: 'http://localhost:4000/sse'
+export const sseLink = new SSELink({
+  url: process.env.VUE_APP_SSE_ENDPOINT
 })

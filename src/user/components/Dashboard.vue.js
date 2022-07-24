@@ -1,13 +1,13 @@
 import { localize } from '@/frame/lib/localization-helper'
 import {
   addDangerMessage,
-  // addSuccessMessage,
+  addSuccessMessage,
   addWarnMessage
 } from '@/frame/lib/alert-helper'
-// import {
-//   POLL_LIFE_CYCLE_SUBSCRIPTION,
-//   UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION
-// } from '@/frame/api/graphql/gql/subscriptions'
+import {
+  POLL_LIFE_CYCLE_SUBSCRIPTION,
+  UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION
+} from '@/frame/api/graphql/gql/subscriptions'
 import { POLLS_RESULTS } from '@/frame/api/graphql/gql/queries'
 import {
   ACTIVE_POLL_EVENT_USER,
@@ -97,64 +97,64 @@ export default {
       }
     },
     $subscribe: {
-      // updateEventUserAccessRights: {
-      //   query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
-      //   variables () {
-      //     return {
-      //       eventUserId: this.$store.getters.getCurrentUserId
-      //     }
-      //   },
-      //   result ({ data }) {
-      //     this.eventUser.verified = data.updateEventUserAccessRights.verified
-      //     this.eventUser.allowToVote =
-      //       data.updateEventUserAccessRights.allowToVote
-      //     this.eventUser.voteAmount =
-      //       data.updateEventUserAccessRights.voteAmount
-      //     addSuccessMessage(
-      //       'Statusänderung',
-      //       '<p>Ihr Status wurde aktualisiert</p><a class="btn btn-primary btn-block my-3" id="anchorLink" href="#">Änderung anschauen</a>'
-      //     )
-      //   }
-      // }
-      // pollLifeCycle: {
-      //   query: POLL_LIFE_CYCLE_SUBSCRIPTION,
-      //   variables () {
-      //     return {
-      //       eventId: this.eventRecord.id
-      //     }
-      //   },
-      //   result ({ data }) {
-      //     if (data.pollLifeCycle.poll) {
-      //       if (
-      //         typeof this.eventUser.id === 'undefined' ||
-      //         isNaN(this.eventUser.id)
-      //       ) {
-      //         this.reloadPage()
-      //       }
+      updateEventUserAccessRights: {
+        query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
+        variables () {
+          return {
+            eventUserId: this.$store.getters.getCurrentUserId
+          }
+        },
+        result ({ data }) {
+          this.eventUser.verified = data.updateEventUserAccessRights.verified
+          this.eventUser.allowToVote =
+            data.updateEventUserAccessRights.allowToVote
+          this.eventUser.voteAmount =
+            data.updateEventUserAccessRights.voteAmount
+          addSuccessMessage(
+            'Statusänderung',
+            '<p>Ihr Status wurde aktualisiert</p><a class="btn btn-primary btn-block my-3" id="anchorLink" href="#">Änderung anschauen</a>'
+          )
+        }
+      },
+      pollLifeCycle: {
+        query: POLL_LIFE_CYCLE_SUBSCRIPTION,
+        variables () {
+          return {
+            eventId: this.eventRecord.id
+          }
+        },
+        result ({ data }) {
+          if (data.pollLifeCycle.poll) {
+            if (
+              typeof this.eventUser.id === 'undefined' ||
+              isNaN(this.eventUser.id)
+            ) {
+              this.reloadPage()
+            }
 
-      //       if (this.$refs.pollModal) {
-      //         this.$refs.pollModal.close()
-      //       }
-      //       this.poll = data.pollLifeCycle.poll
-      //     }
-      //     if (data.pollLifeCycle.pollResultId) {
-      //       this.pollResultId = data.pollLifeCycle.pollResultId
-      //     }
-      //     if (data.pollLifeCycle.state === 'closed') {
-      //       if (this.openMeeting) {
-      //         this.openModalResult = true
-      //       }
-      //       this.$apollo.queries.pollResult.refetch()
-      //       this.showMoreEnabled = true
-      //       this.page = 0
-      //       this.voteCounter = 1
-      //       if (this.$refs.pollModal) {
-      //         this.$refs.pollModal.close()
-      //       }
-      //     }
-      //     this.pollState = data.pollLifeCycle.state
-      //   }
-      // }
+            if (this.$refs.pollModal) {
+              this.$refs.pollModal.close()
+            }
+            this.poll = data.pollLifeCycle.poll
+          }
+          if (data.pollLifeCycle.pollResultId) {
+            this.pollResultId = data.pollLifeCycle.pollResultId
+          }
+          if (data.pollLifeCycle.state === 'closed') {
+            if (this.openMeeting) {
+              this.openModalResult = true
+            }
+            this.$apollo.queries.pollResult.refetch()
+            this.showMoreEnabled = true
+            this.page = 0
+            this.voteCounter = 1
+            if (this.$refs.pollModal) {
+              this.$refs.pollModal.close()
+            }
+          }
+          this.pollState = data.pollLifeCycle.state
+        }
+      }
     }
   },
   created () {

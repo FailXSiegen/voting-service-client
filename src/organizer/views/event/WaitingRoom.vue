@@ -48,13 +48,13 @@
 <script>
 import AppNavigation from '@/organizer/components/events/detail/Navigation'
 import AppPendingUsers from '@/organizer/components/events/detail/PendingUsers'
-// import { addSuccessMessage } from '@/frame/lib/alert-helper'
+import { addSuccessMessage } from '@/frame/lib/alert-helper'
 import { fetchEventBySlug } from '@/user/api/fetch/event'
-// import {
-//   EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
-//   NEW_EVENT_USER_SUBSCRIPTION,
-//   UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION
-// } from '@/frame/api/graphql/gql/subscriptions'
+import {
+  EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
+  NEW_EVENT_USER_SUBSCRIPTION,
+  UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION
+} from '@/frame/api/graphql/gql/subscriptions'
 import { EVENT_USERS_BY_EVENT } from '@/organizer/api/graphql/gql/queries'
 
 export default {
@@ -76,69 +76,69 @@ export default {
           eventId: this.eventRecord.id
         }
       }
-    }
-    // $subscribe: {
-    //   updateEventUserAccessRights: {
-    //     query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
-    //     result ({ data }) {
-    //       const {
-    //         eventUserId,
-    //         eventId,
-    //         verified,
-    //         allowToVote,
-    //         voteAmount
-    //       } = data.updateEventUserAccessRights
-    //       if (parseInt(eventId) !== this.eventRecord.id) {
-    //         return
-    //       }
-    //       const eventUser = this.eventUsers.find(user => {
-    //         return user.id === eventUserId
-    //       })
-    //       if (!eventUser) {
-    //         return
-    //       }
-    //       eventUser.verified = verified
-    //       eventUser.allowToVote = allowToVote
-    //       eventUser.voteAmount = voteAmount
-    //       addSuccessMessage(
-    //         'Erfolg',
-    //         'Die Rechte des Nutzers wurden erfolgreich angepasst.'
-    //       )
-    //     }
-    //   },
-    //   newEventUser: {
-    //     query: NEW_EVENT_USER_SUBSCRIPTION,
-    //     result ({ data }) {
-    //       if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
-    //         return
-    //       }
+    },
+    $subscribe: {
+      updateEventUserAccessRights: {
+        query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
+        result ({ data }) {
+          const {
+            eventUserId,
+            eventId,
+            verified,
+            allowToVote,
+            voteAmount
+          } = data.updateEventUserAccessRights
+          if (parseInt(eventId) !== this.eventRecord.id) {
+            return
+          }
+          const eventUser = this.eventUsers.find(user => {
+            return user.id === eventUserId
+          })
+          if (!eventUser) {
+            return
+          }
+          eventUser.verified = verified
+          eventUser.allowToVote = allowToVote
+          eventUser.voteAmount = voteAmount
+          addSuccessMessage(
+            'Erfolg',
+            'Die Rechte des Nutzers wurden erfolgreich angepasst.'
+          )
+        }
+      },
+      newEventUser: {
+        query: NEW_EVENT_USER_SUBSCRIPTION,
+        result ({ data }) {
+          if (parseInt(data.newEventUser.eventId) !== this.eventRecord.id) {
+            return
+          }
 
-    //       this.eventUsers.push({ ...data.newEventUser })
-    //       addSuccessMessage(
-    //         'Hallöchen',
-    //         'Ein neuer User ist dem Waitingroom beigetreten.'
-    //       )
-    //     }
-    //   },
-    //   eventUserLifeCycle: {
-    //     query: EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
-    //     result ({ data }) {
-    //       let eventUserFound = false
-    //       if (data.eventUserLifeCycle) {
-    //         const eventUserId = data.eventUserLifeCycle.eventUserId
-    //         this.eventUsers.forEach(eventUser => {
-    //           if (eventUserId === eventUser.id) {
-    //             eventUserFound = true
-    //             eventUser.online = data.eventUserLifeCycle.online
-    //           }
-    //         })
-    //         if (!eventUserFound && data.eventUserLifeCycle.username) {
-    //           this.eventUsers.push({ ...data.eventUserLifeCycle })
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+          this.eventUsers.push({ ...data.newEventUser })
+          addSuccessMessage(
+            'Hallöchen',
+            'Ein neuer User ist dem Waitingroom beigetreten.'
+          )
+        }
+      },
+      eventUserLifeCycle: {
+        query: EVENT_USER_LIFE_CYCLE_SUBSCRIPTION,
+        result ({ data }) {
+          let eventUserFound = false
+          if (data.eventUserLifeCycle) {
+            const eventUserId = data.eventUserLifeCycle.eventUserId
+            this.eventUsers.forEach(eventUser => {
+              if (eventUserId === eventUser.id) {
+                eventUserFound = true
+                eventUser.online = data.eventUserLifeCycle.online
+              }
+            })
+            if (!eventUserFound && data.eventUserLifeCycle.username) {
+              this.eventUsers.push({ ...data.eventUserLifeCycle })
+            }
+          }
+        }
+      }
+    }
   },
   async created () {
     document.title = 'Warteraum - digitalwahl.org'
