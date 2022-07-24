@@ -16,11 +16,10 @@ import {
 import AppModalPoll from '@/user/components/modal/Poll'
 import AppModalPollResult from '@/user/components/modal/PollResult'
 import AppResults from '@/organizer/components/events/detail/ResultsListing'
-import { onLogout as apolloOnLogout } from '@/vue-apollo'
+import { onLogout as apolloOnLogout, client } from '@/vue-apollo'
 import { CREATE_POLL_SUBMIT_ANSWER } from '@/user/api/graphql/gql/mutations'
 import $ from 'jquery'
 import ZoomFrame from '@/user/components/video-conference/ZoomFrame.vue'
-
 export default {
   components: {
     AppModalPoll,
@@ -96,72 +95,73 @@ export default {
           this.showMoreEnabled = true
         }
       }
-    }
-    // $subscribe: {
-    //   updateEventUserAccessRights: {
-    //     query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
-    //     variables () {
-    //       return {
-    //         eventUserId: this.$store.getters.getCurrentUserId
-    //       }
-    //     },
-    //     result ({ data }) {
-    //       this.eventUser.verified = data.updateEventUserAccessRights.verified
-    //       this.eventUser.allowToVote =
-    //         data.updateEventUserAccessRights.allowToVote
-    //       this.eventUser.voteAmount =
-    //         data.updateEventUserAccessRights.voteAmount
-    //       addSuccessMessage(
-    //         'Statusänderung',
-    //         '<p>Ihr Status wurde aktualisiert</p><a class="btn btn-primary btn-block my-3" id="anchorLink" href="#">Änderung anschauen</a>'
-    //       )
-    //     }
-    //   },
-    //   pollLifeCycle: {
-    //     query: POLL_LIFE_CYCLE_SUBSCRIPTION,
-    //     variables () {
-    //       return {
-    //         eventId: this.eventRecord.id
-    //       }
-    //     },
-    //     result ({ data }) {
-    //       if (data.pollLifeCycle.poll) {
-    //         if (
-    //           typeof this.eventUser.id === 'undefined' ||
-    //           isNaN(this.eventUser.id)
-    //         ) {
-    //           this.reloadPage()
-    //         }
+    },
+    $subscribe: {
+      // updateEventUserAccessRights: {
+      //   query: UPDATE_EVENT_USER_ACCESS_RIGHTS_SUBSCRIPTION,
+      //   variables () {
+      //     return {
+      //       eventUserId: this.$store.getters.getCurrentUserId
+      //     }
+      //   },
+      //   result ({ data }) {
+      //     this.eventUser.verified = data.updateEventUserAccessRights.verified
+      //     this.eventUser.allowToVote =
+      //       data.updateEventUserAccessRights.allowToVote
+      //     this.eventUser.voteAmount =
+      //       data.updateEventUserAccessRights.voteAmount
+      //     addSuccessMessage(
+      //       'Statusänderung',
+      //       '<p>Ihr Status wurde aktualisiert</p><a class="btn btn-primary btn-block my-3" id="anchorLink" href="#">Änderung anschauen</a>'
+      //     )
+      //   }
+      // }
+      // pollLifeCycle: {
+      //   query: POLL_LIFE_CYCLE_SUBSCRIPTION,
+      //   variables () {
+      //     return {
+      //       eventId: this.eventRecord.id
+      //     }
+      //   },
+      //   result ({ data }) {
+      //     if (data.pollLifeCycle.poll) {
+      //       if (
+      //         typeof this.eventUser.id === 'undefined' ||
+      //         isNaN(this.eventUser.id)
+      //       ) {
+      //         this.reloadPage()
+      //       }
 
-    //         if (this.$refs.pollModal) {
-    //           this.$refs.pollModal.close()
-    //         }
-    //         this.poll = data.pollLifeCycle.poll
-    //       }
-    //       if (data.pollLifeCycle.pollResultId) {
-    //         this.pollResultId = data.pollLifeCycle.pollResultId
-    //       }
-    //       if (data.pollLifeCycle.state === 'closed') {
-    //         if (this.openMeeting) {
-    //           this.openModalResult = true
-    //         }
-    //         this.$apollo.queries.pollResult.refetch()
-    //         this.showMoreEnabled = true
-    //         this.page = 0
-    //         this.voteCounter = 1
-    //         if (this.$refs.pollModal) {
-    //           this.$refs.pollModal.close()
-    //         }
-    //       }
-    //       this.pollState = data.pollLifeCycle.state
-    //     }
-    //   }
-    // }
+      //       if (this.$refs.pollModal) {
+      //         this.$refs.pollModal.close()
+      //       }
+      //       this.poll = data.pollLifeCycle.poll
+      //     }
+      //     if (data.pollLifeCycle.pollResultId) {
+      //       this.pollResultId = data.pollLifeCycle.pollResultId
+      //     }
+      //     if (data.pollLifeCycle.state === 'closed') {
+      //       if (this.openMeeting) {
+      //         this.openModalResult = true
+      //       }
+      //       this.$apollo.queries.pollResult.refetch()
+      //       this.showMoreEnabled = true
+      //       this.page = 0
+      //       this.voteCounter = 1
+      //       if (this.$refs.pollModal) {
+      //         this.$refs.pollModal.close()
+      //       }
+      //     }
+      //     this.pollState = data.pollLifeCycle.state
+      //   }
+      // }
+    }
   },
   created () {
     document.title = 'digitalwahl.org'
   },
   mounted () {
+    console.log(client)
     /* @ToDo - Websocket connection lost */
     // const self = this
     // wsLink.subscriptionClient.on('disconnected', () => {
@@ -176,6 +176,7 @@ export default {
     //   self.overlayError = false
     //   self.eventUser.online = true
     // })
+
     $(function () {
       $('body, html').on('click', '#anchorLink', function () {
         $([document.documentElement, document.body]).animate(

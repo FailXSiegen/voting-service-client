@@ -10,11 +10,18 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink } from 'apollo-link'
 // import { WebSocketLink } from 'apollo-link-ws'
 // import { getMainDefinition } from 'apollo-utilities'
+// import { sseConnection } from './apollo/sse-link'
 import { TokenRefreshLink } from 'apollo-link-token-refresh'
 import { jwtDecode } from '@/frame/lib/jwt-util'
 import router from '@/router'
 import { refreshLogin } from '@/frame/api/fetch/auth'
 import { getCurrentUnixTimeStamp } from '@/frame/lib/time-stamp'
+import { createClient } from 'graphql-sse'
+
+export const client = createClient({
+  // singleConnection: true, preferred for HTTP/1 enabled servers. read more below
+  url: 'http://localhost:4000/graphql/stream'
+})
 
 export const AUTH_TOKEN = 'apollo-token'
 
@@ -176,9 +183,6 @@ export async function onLogout (apolloClient) {
   } catch (error) {
     console.error(error)
   }
-  // if (apolloClient.wsClient) {
-  //   apolloClient.wsClient.close(true)
-  // }
   try {
     // await this.onResetLocalStorage()
   } catch (e) {

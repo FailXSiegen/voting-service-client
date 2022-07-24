@@ -128,6 +128,24 @@
             </figcaption>
           </figure>
         </div>
+        <div class="col-sm-auto col-12">
+          <figure class="figure">
+            <a
+              href="https://www.pro-stimme.de/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="../../../assets/images/logos/ProStimme.png"
+                class="figure-img img-fluid"
+                alt="proStimme GmbH"
+              />
+            </a>
+            <figcaption class="figure-caption">
+              proStimme GmbH
+            </figcaption>
+          </figure>
+        </div>
       </div>
     </div>
     <app-footer />
