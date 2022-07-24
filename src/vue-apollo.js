@@ -7,30 +7,25 @@ import VueApollo from 'vue-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloLink } from 'apollo-link'
+import { split, ApolloLink } from 'apollo-link'
 // import { WebSocketLink } from 'apollo-link-ws'
-// import { getMainDefinition } from 'apollo-utilities'
-// import { sseConnection } from './apollo/sse-link'
+import { getMainDefinition } from 'apollo-utilities'
+import { sseApolloLink } from './apollo/sse-link'
 import { TokenRefreshLink } from 'apollo-link-token-refresh'
 import { jwtDecode } from '@/frame/lib/jwt-util'
 import router from '@/router'
 import { refreshLogin } from '@/frame/api/fetch/auth'
 import { getCurrentUnixTimeStamp } from '@/frame/lib/time-stamp'
-import { createClient } from 'graphql-sse'
-
-export const client = createClient({
-  // singleConnection: true, preferred for HTTP/1 enabled servers. read more below
-  url: 'http://localhost:4000/graphql/stream'
-})
 
 export const AUTH_TOKEN = 'apollo-token'
-
+console.log('Hello')
 const uriHttp = process.env.VUE_APP_GRAPHQL_ENDPOINT
 // const uriWs = process.env.VUE_APP_WS_ENDPOINT
 
 const headers = { authorization: getAuth() }
 
 const httpLink = new HttpLink({ uri: uriHttp, headers })
+
 /* @ToDo replace Websocket Init */
 // export const wsLink = new WebSocketLink({
 //   uri: uriWs,
@@ -112,14 +107,14 @@ const errorLink = onError(error => {
 // wsLink.subscriptionClient.maxConnectTimeGenerator.duration = () => wsLink.subscriptionClient.maxConnectTimeGenerator.max
 
 // combine http and ws link
-// const splitLink = split(({ query }) => {
-//   const { kind, operation } = getMainDefinition(query)
-//   return kind === 'OperationDefinition' && operation === 'subscription'
-// }, wsLink, httpLink)
+const splitLink = split(({ query }) => {
+  const { kind, operation } = getMainDefinition(query)
+  return kind === 'OperationDefinition' && operation === 'subscription'
+}, sseApolloLink, httpLink)
 
 export const defaultClient = new ApolloClient({
   link: ApolloLink.from([
-    refreshTokenLink, errorLink, httpLink
+    refreshTokenLink, errorLink, splitLink
   ]),
   cache: new InMemoryCache(),
   connectToDevTools: true

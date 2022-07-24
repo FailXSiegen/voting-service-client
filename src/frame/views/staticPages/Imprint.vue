@@ -136,7 +136,7 @@
               rel="noopener noreferrer"
             >
               <img
-                src="../../../assets/images/logos/ProStimme.png"
+                src="../../../assets/images/logos/ProStimme.jpg"
                 class="figure-img img-fluid"
                 alt="proStimme GmbH"
               />
