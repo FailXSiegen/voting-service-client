@@ -362,15 +362,11 @@ export default {
   },
   mounted () {
     const self = this
-    wsLink.subscriptionClient.on('disconnected', () => {
+    wsLink.client.on('closed', () => {
       self.overlayError = true
       self.eventUser.online = false
     })
-    wsLink.subscriptionClient.on('connected', () => {
-      self.overlayError = false
-      self.eventUser.online = true
-    })
-    wsLink.subscriptionClient.on('reconnected', () => {
+    wsLink.client.on('connected', () => {
       self.overlayError = false
       self.eventUser.online = true
     })

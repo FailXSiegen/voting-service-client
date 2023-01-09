@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.3",
     "@vue/apollo-util": "^4.0.0-alpha.16",
     "@zoomus/websdk": "^2",
     "apollo-link-error": "^1.1.13",
@@ -16,6 +17,7 @@
     "bootstrap-icons": "^1.7.2",
     "chart.js": "^3.7.0",
     "core-js": "^3.20.1",
+    "graphql-ws": "^5.11.2",
     "jquery": "^3.5",
     "popper.js": "^1.16.1",
     "ramda": "^0.27.1",
