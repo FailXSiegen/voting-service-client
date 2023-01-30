@@ -1,6 +1,7 @@
 import { localize } from '@/frame/lib/localization-helper'
 import { addDangerMessage } from '@/frame/lib/alert-helper'
-import { onResetLocalStorage } from '@/vue-apollo'
+import { defaultClient, onLogout } from '@/vue-apollo'
+import router from '@/router'
 
 export async function login (username, password, loginType, displayName = '', eventId = null) {
   const endpoint = process.env.VUE_APP_API_HOST + '/login'
@@ -45,15 +46,20 @@ export async function refreshLogin () {
   if (response.status >= 500) {
     throw new Error(localize('error.network.internalServerError'))
   }
+  // @todo handle event user and organizer different!
   if (response.status !== 201) {
     addDangerMessage('Fehler', 'Lokale Daten sind nicht mehr valide. Es wird ein Logout-Versuch unternommen.<br />Bei wiederauftretendem Fehler den lokalen Browser-Cache leeren')
-    await onResetLocalStorage(this.$apollo.provider.defaultClient)
-    throw new Error(localize('view.login.invalidCredentials'))
+    await onLogout(defaultClient)
+    await router.push('/').catch(() => {})
+    console.error(localize('view.login.invalidCredentials'))
+    return
   }
   const result = await response.json()
   if (!result.token) {
-    await onResetLocalStorage(this.$apollo.provider.defaultClient)
-    throw new Error(localize('error.network.internalServerError'))
+    addDangerMessage('Fehler', localize('error.network.internalServerError'))
+    await onLogout(defaultClient)
+    await router.push('/').catch(() => {})
+    console.error(localize('error.network.internalServerError'))
   }
   return result
 }

@@ -364,11 +364,15 @@ export default {
     const self = this
     wsLink.client.on('closed', () => {
       self.overlayError = true
-      self.eventUser.online = false
+      if (self.eventUser) {
+        self.eventUser.online = false
+      }
     })
     wsLink.client.on('connected', () => {
       self.overlayError = false
-      self.eventUser.online = true
+      if (self.eventUser) {
+        self.eventUser.online = true
+      }
     })
     $(function () {
       $('body, html').on('click', '#anchorLink', function () {

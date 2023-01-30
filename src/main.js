@@ -12,7 +12,7 @@ Vue.use(VueMeta, {
 })
 // Fetch user data, if present.
 store.dispatch('extractUserData').catch((error) => {
-  console.error(error)
+  console.error('Could not fetch user data. Please reload the page.', error)
 })
 
 new Vue({
